@@ -38,7 +38,7 @@ export default function Home() {
       <div className="absolute right-[2.5rem] bottom-[7.5rem] flex flex-col justify-center items-center gap-3 md:right-[34.25rem] md:bottom-[22.25rem]">
         <Link href="/SignUp">
           <button className="bg-principal-3 text-white px-32 py-2 rounded-full cursor-pointer">
-            SignUp
+            Sign Up
           </button>
         </Link>
         <Link href="SignIn">
