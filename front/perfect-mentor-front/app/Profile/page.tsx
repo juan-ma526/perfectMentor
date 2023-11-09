@@ -1,3 +1,4 @@
+"use client";
 import { AiOutlineEdit } from "react-icons/ai";
 import Barras from "../assets/Barras.png";
 import Lupa from "../assets/Lupa.png";
@@ -9,8 +10,14 @@ import { BiLogOut } from "react-icons/bi";
 import Resorte from "../assets/doodle-5 1.png";
 import Avatar from "../assets/Avatar.png";
 import Link from "next/link";
+import { AuthContext } from "../auth-Provider";
+import { useContext } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
+  const { logout, user } = useContext(AuthContext);
+  const router = useRouter();
+  console.log(user);
   const listaPersonas = [
     {
       Nombre: "Marta",
@@ -29,6 +36,11 @@ export default function ProfilePage() {
       Respondio: "No answer",
     },
   ];
+
+  const handleLogout = () => {
+    logout();
+    router.push("/SignIn");
+  };
 
   return (
     <div className="flex flex-col bg-principal-2 md:bg-white md:w-[1289px] md:h-[860px] md:z-30 md:top-[41px] md:left-[299px] md:absolute md:rounded-3xl ">
@@ -203,7 +215,10 @@ export default function ProfilePage() {
                 <h2 className="md:text-principal-4">Profile</h2>
               </div>
             </Link>
-            <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
+            <div
+              onClick={handleLogout}
+              className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6"
+            >
               <BiLogOut
                 className="md:bg-principal-4 md:rounded-full"
                 size={25}
