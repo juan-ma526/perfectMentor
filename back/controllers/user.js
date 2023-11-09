@@ -1,4 +1,6 @@
 const User = require("../models/Users");
+const jwt = require("jsonwebtoken");
+const { TOKEN_SECRET } = require("../config");
 const bcryp = require("bcrypt");
 const nodemailer = require("nodemailer");
 const { createAccesToken } = require("../lib/jwt");
@@ -61,6 +63,29 @@ const signIn = async (req, res) => {
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
+};
+
+const verifyToken = async (req, res) => {
+  const { token } = req.cookies;
+
+  if (!token) return res.status(401).send({ message: "No autorizado" });
+
+  jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+    if (err) return res.status(401).send({ message: "No autorizado" });
+
+    const userFound = await User.findById(user.id);
+    if (!userFound) return res.status(401).send({ message: "No autorizado" });
+
+    return res.send({
+      id: userFound._id,
+      name: userFound.name,
+      email: userFound.email,
+      rol: userFound.rol,
+      age: userFound.age,
+      status: userFound.status,
+      createdAt: userFound.createdAt,
+    });
+  });
 };
 
 const logout = async (req, res) => {
@@ -134,4 +159,12 @@ const verifiedUser = async (req, res) => {
   }
 };
 
-module.exports = { allUsers, signUp, signIn, logout, profile, verifiedUser };
+module.exports = {
+  allUsers,
+  signUp,
+  signIn,
+  logout,
+  profile,
+  verifiedUser,
+  verifyToken,
+};
