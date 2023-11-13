@@ -18,7 +18,7 @@ interface ContextProps {
   signIn: (email: string, password: string) => any;
   logout: () => any;
   isAuthenticated: boolean;
-  error: string[] | null;
+  error: string[] | boolean;
 }
 
 interface Props {
@@ -30,7 +30,7 @@ export const AuthContext = createContext({} as ContextProps);
 export default function AuthProvider({ children }: Props) {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [error, setError] = useState<string[] | null>(null);
+  const [error, setError] = useState<string[] | boolean>(false);
 
   const signUp = async (name: string, email: string, password: string) => {
     try {
@@ -43,17 +43,17 @@ export default function AuthProvider({ children }: Props) {
         body: JSON.stringify({ name: name, email: email, password: password }),
       });
       const data = await response.json();
-      if (data.error) {
-        setError(data.error);
+      if (data.message) {
+        setError(data.message);
       }
       if (data.id) {
-        setUser(data);
+        // setUser(data);
         setIsAuthenticated(true);
-        setError(null);
+        setError(false);
       }
       return NextResponse.json(data);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      setError(["Contraseña o mail incorrectos"]);
     }
   };
 
@@ -68,13 +68,13 @@ export default function AuthProvider({ children }: Props) {
         body: JSON.stringify({ email: email, password: password }),
       });
       const data = await response.json();
-      if (data.error) {
-        setError(data.error);
+      if (data.message) {
+        setError(data.message);
       }
       if (data.id) {
         setUser(data);
         setIsAuthenticated(true);
-        setError(null);
+        setError(false);
       }
 
       return NextResponse.json(data);
@@ -96,6 +96,7 @@ export default function AuthProvider({ children }: Props) {
       Cookies.remove("token");
       setUser(null);
       setIsAuthenticated(false);
+      setError(false);
 
       return NextResponse.json(data);
     } catch (error) {

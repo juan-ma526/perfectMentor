@@ -10,22 +10,61 @@ import { AiOutlineUnlock } from "react-icons/ai";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../auth-Provider";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 export default function SignInPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const { signIn, isAuthenticated } = useContext(AuthContext);
+  const { signIn, isAuthenticated, error } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(() => {
+    let alertWidthClass = ""; // Clase de ancho predeterminado
+    if (window.innerWidth <= 600) {
+      // Pantalla pequeña (puedes ajustar este valor según tus necesidades)
+      alertWidthClass = "w-[300px] md:w-3/4 "; // Ajusta según tus necesidades
+    }
     if (isAuthenticated) {
+      Swal.fire({
+        title: "Succes!",
+        text: "Login Exitoso",
+        icon: "success",
+        iconColor: "#bfd732",
+        allowOutsideClick: false,
+        timer: 1000,
+        background: "#444444",
+        color: "#bfd732",
+        customClass: {
+          popup: alertWidthClass, // Clase de ancho personalizado
+        },
+      });
       router.push("/Users");
     }
   }, [isAuthenticated]);
 
   const handleSignIn = (e: FormEvent<HTMLFormElement>) => {
+    let alertWidthClass = ""; // Clase de ancho predeterminado
+    if (window.innerWidth <= 600) {
+      // Pantalla pequeña (puedes ajustar este valor según tus necesidades)
+      alertWidthClass = "w-[300px] md:w-3/4 "; // Ajusta según tus necesidades
+    }
     e.preventDefault();
     signIn(email, password);
+    if (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "Error de mail o contraseña",
+        icon: "error",
+        iconColor: "#bfd732",
+        allowOutsideClick: false,
+        timer: 1000,
+        background: "#444444",
+        color: "#bfd732",
+        customClass: {
+          popup: alertWidthClass, // Clase de ancho personalizado
+        },
+      });
+    }
   };
 
   return (

@@ -1,3 +1,4 @@
+"use client";
 import { BiSearch } from "react-icons/bi";
 import { AiOutlineEdit } from "react-icons/ai";
 import Barras from "../assets/Barras.png";
@@ -8,8 +9,14 @@ import Image from "next/image";
 import Titulo from "../assets/Titulo.png";
 import { BiLogOut } from "react-icons/bi";
 import Resorte from "../assets/doodle-5 1.png";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "../auth-Provider";
+import { useContext } from "react";
 
 export default function ReportPage() {
+  const { logout } = useContext(AuthContext);
+  const router = useRouter();
   const commonStyles =
     "w-[315px] h-[102px] m-auto flex gap-6 rounded-[20px] mb-2 p-3 md:w-[97%] md:h-[60px] md:ml-3 md:mr-3";
 
@@ -137,6 +144,11 @@ export default function ReportPage() {
     },
   ];
 
+  const handleLogout = () => {
+    logout();
+    router.push("/SignIn");
+  };
+
   return (
     <div className="flex flex-col  bg-principal-2 md:w-[1289px] md:h-[860px] md:z-50 md:top-[41px] md:left-[299px] md:absolute md:rounded-3xl ">
       <Image
@@ -232,17 +244,28 @@ export default function ReportPage() {
       {/*Navbar inferior*/}
       <div className="z-50 w-full h-[82px] bg-principal-3 rounded-t-[3rem] flex justify-center items-center md:hidden">
         <div className="flex justify-between gap-12">
-          <div className="cursor-pointer">
-            <Image src={Lupa} alt="Icono Lupa" />
-          </div>
-          <div className="cursor-pointer">
-            <Image src={Barras} alt="Icono Barra" />
-          </div>
-          <div className="cursor-pointer">
-            <Image src={Report} alt="Icono Reportes" />
-          </div>
-          <div className="cursor-pointer">
-            <Image src={User} alt="Icono Usuario" />
+          <Link href="/Users">
+            <div className="cursor-pointer">
+              <Image src={Lupa} alt="Icono Lupa" />
+            </div>
+          </Link>
+          <Link href="/Stadistics">
+            <div className="cursor-pointer">
+              <Image src={Barras} alt="Icono Barra" />
+            </div>
+          </Link>
+          <Link href="/Reports">
+            <div className="cursor-pointer">
+              <Image src={Report} alt="Icono Reportes" />
+            </div>
+          </Link>
+          <Link href="/Profile">
+            <div className="cursor-pointer">
+              <Image src={User} alt="Icono Usuario" />
+            </div>
+          </Link>
+          <div onClick={handleLogout} className="cursor-pointer">
+            <BiLogOut className="bg-principal-1 rounded-lg" size={27} />
           </div>
         </div>
       </div>
@@ -251,47 +274,58 @@ export default function ReportPage() {
         <Image src={Titulo} alt="Titulo" />
         <div className="md:absolute md:top-[249px] md:z-50 md:w-[297px] md:h-full md:bg-principal-1 md:flex md:flex-col md:justify-center md:items-center md:-left-[52px] ">
           <ul className="md:flex md:justify-between  md:h-[400px] md:flex-col md:m-auto md:w-[18.55rem]">
-            <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6 md:hover:text-principal-1">
-              <li>
-                <Image
-                  src={Lupa}
-                  alt="Icono lupa"
-                  className="md:bg-principal-4"
-                />
-              </li>
-              <h2 className="md:text-principal-4">Users</h2>
-            </div>
-            <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
-              <li>
-                <Image
-                  src={Barras}
-                  alt="Icono lupa"
-                  className="md:bg-principal-4"
-                />
-              </li>
-              <h2 className="md:text-principal-4">Stadistics</h2>
-            </div>
-            <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
-              <li>
-                <Image
-                  src={Report}
-                  alt="Icono lupa"
-                  className="md:bg-principal-4"
-                />
-              </li>
-              <h2 className="md:text-principal-4">Reports</h2>
-            </div>
-            <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
-              <li>
-                <Image
-                  src={User}
-                  alt="Icono lupa"
-                  className="md:bg-principal-4"
-                />
-              </li>
-              <h2 className="md:text-principal-4">Profile</h2>
-            </div>
-            <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
+            <Link href="/Users">
+              <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6 md:hover:text-principal-1">
+                <li>
+                  <Image
+                    src={Lupa}
+                    alt="Icono lupa"
+                    className="md:bg-principal-4"
+                  />
+                </li>
+                <h2 className="md:text-principal-4">Users</h2>
+              </div>
+            </Link>
+            <Link href="/Stadistics">
+              <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
+                <li>
+                  <Image
+                    src={Barras}
+                    alt="Icono lupa"
+                    className="md:bg-principal-4"
+                  />
+                </li>
+                <h2 className="md:text-principal-4">Stadistics</h2>
+              </div>
+            </Link>
+            <Link href="/Reports">
+              <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
+                <li>
+                  <Image
+                    src={Report}
+                    alt="Icono lupa"
+                    className="md:bg-principal-4"
+                  />
+                </li>
+                <h2 className="md:text-principal-4">Reports</h2>
+              </div>
+            </Link>
+            <Link href="/Profile">
+              <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
+                <li>
+                  <Image
+                    src={User}
+                    alt="Icono lupa"
+                    className="md:bg-principal-4"
+                  />
+                </li>
+                <h2 className="md:text-principal-4">Profile</h2>
+              </div>
+            </Link>
+            <div
+              onClick={handleLogout}
+              className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6"
+            >
               <BiLogOut
                 className="md:bg-principal-4 md:rounded-full"
                 size={25}

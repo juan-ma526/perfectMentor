@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 export default function ProfilePage() {
   const { logout, user } = useContext(AuthContext);
   const router = useRouter();
-  console.log(user);
+
   const listaPersonas = [
     {
       Nombre: "Marta",
@@ -38,8 +38,12 @@ export default function ProfilePage() {
   ];
 
   const handleLogout = () => {
-    logout();
-    router.push("/SignIn");
+    try {
+      logout();
+      router.push("/SignIn");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -160,6 +164,9 @@ export default function ProfilePage() {
               <Image src={User} alt="Icono Usuario" />
             </div>
           </Link>
+          <div onClick={handleLogout} className="cursor-pointer">
+            <BiLogOut className="bg-principal-1 rounded-lg" size={27} />
+          </div>
         </div>
       </div>
       {/*Navbar lateral*/}
