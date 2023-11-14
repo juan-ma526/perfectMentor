@@ -10,12 +10,28 @@ import Titulo from "../assets/Titulo.png";
 import { BiLogOut } from "react-icons/bi";
 import Resorte from "../assets/doodle-5 1.png";
 import Link from "next/link";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../auth-Provider";
 import { useRouter } from "next/navigation";
 
+export interface Users {
+  name: string;
+  age: string;
+  lastname: string;
+  email: string;
+  country: string;
+  profession: string;
+  description: string;
+  photo: string;
+  rol: string;
+  Skills: string;
+  status: string;
+  createdAt: string;
+}
+
 export default function UsersPage() {
   const { logout, isAuthenticated } = useContext(AuthContext);
+  const [users, setUsers] = useState<Users[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,119 +46,31 @@ export default function UsersPage() {
   const commonStylesVerified =
     "w-[82px] h-[20px] rounded-[40px] border-2 text-xs flex justify-center items-center mr-1";
 
-  const listaPersonas = [
-    {
-      Nombre: "Marta",
-      Edad: "33",
-      Apellido: "Sanchez",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "Argentina",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Ingles",
-      Verificado: false,
-      JoinedDate: "abril 22,2022",
-    },
-    // Repite el mismo formato para las otras 4 personas
-    {
-      Nombre: "Martin",
-      Edad: "33",
-      Apellido: "Perez",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "Brasil",
-      Profesion: "Fullstack",
-      Descripcion: "lorem opasdjasj laskdid",
-      Foto: "",
-      Rol: "Mentor",
-      Skills: "Node, Mongodb, Javascript",
-      Idioma: "Español",
-      Verificado: true,
-      JoinedDate: "Jan 22, 2012",
-    },
-    {
-      // Datos de la tercera persona
-      Nombre: "Carlos",
-      Edad: "19",
-      Apellido: "Sanchez",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "Argentina",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Ingles",
-      Verificado: true,
-      JoinedDate: "feb 15, 1988",
-    },
-    {
-      // Datos de la cuarta persona
-      Nombre: "Felipe",
-      Edad: "25",
-      Apellido: "Melo",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "España",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Español",
-      Verificado: false,
-      JoinedDate: "Dic 22, 2015",
-    },
-    {
-      // Datos de la cuarta persona
-      Nombre: "Felipe",
-      Edad: "25",
-      Apellido: "Melo",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "España",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Español",
-      Verificado: true,
-      JoinedDate: "Dic 22, 2015",
-    },
-    {
-      // Datos de la cuarta persona
-      Nombre: "Felipe",
-      Edad: "25",
-      Apellido: "Melo",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "España",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Español",
-      Verificado: false,
-      JoinedDate: "Dic 22, 2015",
-    },
-    {
-      // Datos de la cuarta persona
-      Nombre: "Felipe",
-      Edad: "25",
-      Apellido: "Melo",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "España",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Español",
-      Verificado: false,
-      JoinedDate: "Dic 22, 2015",
-    },
-  ];
+  useEffect(() => {
+    const allUsers = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/users/allUsers",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Error fetching users");
+        }
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    allUsers();
+  }, []);
 
   const handleLogout = () => {
     try {
@@ -174,7 +102,7 @@ export default function UsersPage() {
             View all the users
           </h3>
         </div>
-        <div className="absolute top-28 left-10 flex justify-start md:top-52 md:left-24 md:z-30 md:drop-shadow-lg">
+        <div className="absolute top-28 left-10 flex justify-start md:hidden">
           <BiSearch className="absolute left-3 top-3" size={20} />
           <label htmlFor="search">
             <input
@@ -187,6 +115,17 @@ export default function UsersPage() {
       </div>
       {/*Parte del medio*/}
       <div className="bg-white w-[355px] max-h-[640px] m-auto mt-9 relative pt-[4.75rem] flex flex-col overflow-y-auto md:rounded-3xl md:w-[1235px] md:h-[700px] md:top-[9.5rem] md:left-6">
+        <div className="absolute hidden left-10 md:flex justify-start md:top-4 drop-shadow-lg">
+          <BiSearch className="absolute left-3 top-3" size={20} />
+          <label htmlFor="search">
+            <input
+              type="search"
+              className="w-[315px] h-[50px] rounded-full border-none pl-10 md:w-[500px]"
+              id="search"
+            />
+          </label>
+        </div>
+
         <div className="absolute top-2 left-6 z-30 w-[315px] h-[50px] bg-principal-2 rounded-full flex justify-around items-center md:top-5 md:left-[41rem]  ">
           <h2 className="font-bold leading-5 text-base text-principal-3">
             Filters
@@ -199,11 +138,11 @@ export default function UsersPage() {
           </span>
         </div>
         {/* Aca va el arreglo filtrado*/}
-        {listaPersonas.map((persona, index) => {
+        {users.map((persona, index) => {
           return (
             <div
               className={
-                persona.Verificado
+                persona.status == "Verified"
                   ? `bg-green-100 ${commonStyles}`
                   : `bg-rose-100 ${commonStyles}`
               }
@@ -212,10 +151,10 @@ export default function UsersPage() {
               <div className="flex flex-col m-auto md:flex-row  md:gap-32">
                 <div className="flex gap-2">
                   <span className="text-sm font-bold leading-5 ">
-                    {persona.Nombre} {persona.Apellido}
+                    {persona.name} {persona.lastname}
                   </span>
                   <span className="text-sm font-normal leading-5 md:hidden">
-                    {persona.Edad}
+                    {persona.age}
                   </span>
                 </div>
                 <div className="flex gap-2 ">
@@ -223,7 +162,7 @@ export default function UsersPage() {
                     email:
                   </span>
                   <span className="text-sm font-normal leading-5">
-                    {persona.Email}
+                    {persona.email.split("@")[0]}
                   </span>
                 </div>
                 <div className="flex gap-2 ">
@@ -231,7 +170,7 @@ export default function UsersPage() {
                     Role:
                   </span>
                   <span className="text-sm font-normal leading-5">
-                    {persona.Rol}
+                    {persona.rol}
                   </span>
                 </div>
                 <div className="flex gap-2 ">
@@ -239,19 +178,19 @@ export default function UsersPage() {
                     Joined date:
                   </span>
                   <span className="text-sm font-normal leading-5">
-                    {persona.JoinedDate}
+                    {persona.createdAt.split("T")[0]}
                   </span>
                 </div>
               </div>
               <div className="flex flex-col items-end justify-around md:flex-row md:gap-11">
                 <div
                   className={
-                    persona.Verificado
+                    persona.status == "Verified"
                       ? `bg-green-500 text-green-900 ${commonStylesVerified}`
                       : `bg-rose-500 text-rose-900 ${commonStylesVerified}`
                   }
                 >
-                  {persona.Verificado ? "Verified" : "Unverified"}
+                  {persona.status == "Verified" ? "Verified" : "Unverified"}
                 </div>
                 <AiOutlineEdit
                   size={30}

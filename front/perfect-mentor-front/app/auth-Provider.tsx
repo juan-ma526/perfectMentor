@@ -47,7 +47,7 @@ export default function AuthProvider({ children }: Props) {
         setError(data.message);
       }
       if (data.id) {
-        // setUser(data);
+        setUser(data);
         setIsAuthenticated(true);
         setError(false);
       }

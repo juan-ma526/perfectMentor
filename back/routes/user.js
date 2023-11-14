@@ -9,6 +9,7 @@ const {
   profile,
   verifiedUser,
   verifyToken,
+  deleteUserbyId,
 } = require("../controllers/user");
 const { authRequired } = require("../middlewares/validateToken");
 
@@ -21,5 +22,7 @@ router.get("/verifyToken", authRequired, verifyToken);
 
 router.put("/profile", authRequired, profile);
 router.post("/verifiedUser", authRequired, verifiedUser);
+
+router.delete("/deleteUser", deleteUserbyId);
 
 module.exports = router;

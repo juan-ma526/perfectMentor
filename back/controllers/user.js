@@ -159,6 +159,27 @@ const verifiedUser = async (req, res) => {
   }
 };
 
+const deleteUserbyId = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    // Intentar eliminar el usuario
+    const userDeleted = await User.deleteOne({ _id: id });
+
+    // Verificar si se eliminó algún usuario
+    if (userDeleted.deletedCount === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    // Enviar una respuesta exitosa
+    res.status(200).json({ message: "Usuario eliminado exitosamente" });
+  } catch (error) {
+    // Manejar errores y devolver una respuesta de error
+    console.error(error);
+    res.status(500).json({ message: "Error al eliminar el usuario" });
+  }
+};
+
 module.exports = {
   allUsers,
   signUp,
@@ -167,4 +188,5 @@ module.exports = {
   profile,
   verifiedUser,
   verifyToken,
+  deleteUserbyId,
 };

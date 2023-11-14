@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 export default function ProfilePage() {
   const { logout, user } = useContext(AuthContext);
   const router = useRouter();
-
+  console.log(user);
   const listaPersonas = [
     {
       Nombre: "Marta",
