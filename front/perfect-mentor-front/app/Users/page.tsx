@@ -148,8 +148,8 @@ export default function UsersPage() {
               }
               key={index}
             >
-              <div className="flex flex-col m-auto md:flex-row  md:gap-32">
-                <div className="flex gap-2">
+              <div className="flex flex-col m-auto md:flex-row  md:gap-32 md:m-auto">
+                <div className="flex">
                   <span className="text-sm font-bold leading-5 ">
                     {persona.name} {persona.lastname}
                   </span>
@@ -167,10 +167,10 @@ export default function UsersPage() {
                 </div>
                 <div className="flex gap-2 ">
                   <span className="text-sm font-bold leading-5 md:hidden">
-                    Role:
+                    Rol:
                   </span>
                   <span className="text-sm font-normal leading-5">
-                    {persona.rol}
+                    {persona.rol || "Update Profile"}
                   </span>
                 </div>
                 <div className="flex gap-2 ">
@@ -201,7 +201,6 @@ export default function UsersPage() {
           );
         })}
       </div>
-
       {/*Navbar inferior*/}
       <div className="z-50 w-full h-[82px] bg-principal-3 rounded-t-[3rem] flex justify-center items-center md:hidden">
         <div className="flex justify-between gap-12">

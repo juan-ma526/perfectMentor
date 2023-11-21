@@ -11,31 +11,54 @@ import Resorte from "../assets/doodle-5 1.png";
 import Avatar from "../assets/Avatar.png";
 import Link from "next/link";
 import { AuthContext } from "../auth-Provider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
+import { NextResponse } from "next/server";
+import { Toaster, toast } from "sonner";
 
 export default function ProfilePage() {
   const { logout, user } = useContext(AuthContext);
+  const [rol, setRol] = useState(user?.rol || "");
+  const [age, setAge] = useState(user?.age || "");
   const router = useRouter();
-  console.log(user);
-  const listaPersonas = [
-    {
-      Nombre: "Marta",
-      Edad: "33",
-      Apellido: "Sanchez",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "Argentina",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Ingles",
-      Verificado: false,
-      JoinedDate: "abril 22,2022",
-      Respondio: "No answer",
-    },
-  ];
+
+  const handleVerifyUser = async () => {
+    const response = await fetch(
+      "http://localhost:3001/api/users/verifiedUser",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({}),
+      }
+    );
+    return await response.json();
+
+    //return data.message;
+  };
+
+  const handleUpdateUser = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/users/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          age: age,
+          rol: rol,
+        }),
+      });
+      const data = await response.json();
+
+      return NextResponse.json(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleLogout = () => {
     try {
@@ -85,7 +108,7 @@ export default function ProfilePage() {
                 type="text"
                 id="Nombre"
                 className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-bold"
-                value={listaPersonas[0].Nombre}
+                value={user?.name}
                 disabled
               />
             </label>
@@ -96,7 +119,7 @@ export default function ProfilePage() {
                   type="text"
                   id="Email"
                   className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-bold"
-                  value={listaPersonas[0].Email}
+                  value={user?.email}
                   disabled
                 />
               </label>
@@ -108,7 +131,7 @@ export default function ProfilePage() {
                   type="password"
                   id="Password"
                   className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-bold"
-                  value={listaPersonas[0].PaisResidencia}
+                  value={user?.email}
                   disabled
                 />
               </label>
@@ -119,26 +142,48 @@ export default function ProfilePage() {
                 <input
                   type="text"
                   id="Age"
-                  className="border-b-[1px] border-principal-4 w-[90%] ml-1 text-[15px] font-bold md:mt-3 md:w-[463px]"
-                  value={listaPersonas[0].Edad}
-                  disabled
+                  className="border-b-[1px] border-principal-4 w-[90%] ml-1 text-[15px] font-bold md:mt-3 md:w-[463px] pl-3 md:pl-3"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
                 />
               </label>
             </div>
             <div className="mt-3">
-              <label htmlFor="Role" className="ml-4 text-xs font-normal">
-                Role
+              <label htmlFor="Rol" className="ml-4 text-xs font-normal">
+                Rol
                 <input
-                  type="text"
-                  id="Role"
-                  className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-bold md:mt-3 md:w-[83%]"
-                  value={listaPersonas[0].Rol}
-                  disabled
+                  type="Text"
+                  id="Rol"
+                  value={rol}
+                  className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-medium md:mt-3 md:w-[83%] pl-3 md:pl-3"
+                  onChange={(e) => setRol(e.target.value)}
                 />
               </label>
             </div>
           </div>
+          <div className="flex gap-3 justify-center items-center mt-9">
+            <button
+              onClick={handleUpdateUser}
+              className="border-2 border-solid p-3 bg-principal-4 text-principal-1 text-lg"
+            >
+              Actualizar
+            </button>
+
+            <button
+              onClick={() => {
+                toast.promise(handleVerifyUser, {
+                  error: "Ocurrio un error al verificar usuario",
+                  success: "Usuario verificado",
+                  loading: "Verificando Usuario....",
+                });
+              }}
+              className="border-2 border-solid p-3 bg-principal-1 text-black text-lg"
+            >
+              Verificar
+            </button>
+          </div>
         </div>
+        <Toaster position="bottom-center" />
       </div>
 
       {/*Navbar inferior*/}
