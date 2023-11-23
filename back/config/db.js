@@ -1,9 +1,8 @@
+require("dotenv").config();
 const moongose = require("mongoose");
 
 const client = moongose
-  .connect(
-    "mongodb+srv://jmperez675:test12768333@trellodb.4w3uytu.mongodb.net/?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("Estas conectado a la db"))
   .catch((error) => console.log(error));
 

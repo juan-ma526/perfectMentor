@@ -149,7 +149,7 @@ export default function UsersPage() {
               key={index}
             >
               <div className="flex flex-col m-auto md:flex-row  md:gap-32 md:m-auto">
-                <div className="flex">
+                <div className="flex gap-2">
                   <span className="text-sm font-bold leading-5 ">
                     {persona.name} {persona.lastname}
                   </span>

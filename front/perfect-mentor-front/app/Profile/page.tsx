@@ -21,7 +21,8 @@ export default function ProfilePage() {
   const [rol, setRol] = useState(user?.rol || "");
   const [age, setAge] = useState(user?.age || "");
   const router = useRouter();
-
+  console.log(rol, age);
+  console.log(user);
   const handleVerifyUser = async () => {
     const response = await fetch(
       "http://localhost:3001/api/users/verifiedUser",
@@ -54,9 +55,13 @@ export default function ProfilePage() {
       });
       const data = await response.json();
 
+      toast.success("Usuario Actualizado");
+
       return NextResponse.json(data);
     } catch (error) {
       console.log(error);
+      toast.error("Error al actualizar Usuario");
+      throw error;
     }
   };
 
@@ -108,7 +113,7 @@ export default function ProfilePage() {
                 type="text"
                 id="Nombre"
                 className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-bold"
-                value={user?.name}
+                value={user?.name || ""}
                 disabled
               />
             </label>
@@ -119,7 +124,7 @@ export default function ProfilePage() {
                   type="text"
                   id="Email"
                   className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-bold"
-                  value={user?.email}
+                  value={user?.email || ""}
                   disabled
                 />
               </label>
@@ -131,7 +136,7 @@ export default function ProfilePage() {
                   type="password"
                   id="Password"
                   className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-bold"
-                  value={user?.email}
+                  value={user?.email || ""}
                   disabled
                 />
               </label>
@@ -143,7 +148,7 @@ export default function ProfilePage() {
                   type="text"
                   id="Age"
                   className="border-b-[1px] border-principal-4 w-[90%] ml-1 text-[15px] font-bold md:mt-3 md:w-[463px] pl-3 md:pl-3"
-                  value={age}
+                  value={age || ""}
                   onChange={(e) => setAge(e.target.value)}
                 />
               </label>
@@ -154,7 +159,7 @@ export default function ProfilePage() {
                 <input
                   type="Text"
                   id="Rol"
-                  value={rol}
+                  value={rol || ""}
                   className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-medium md:mt-3 md:w-[83%] pl-3 md:pl-3"
                   onChange={(e) => setRol(e.target.value)}
                 />

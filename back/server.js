@@ -13,6 +13,6 @@ app.use(cookieParser());
 
 app.use("/api", routes);
 
-app.listen(3001, () => {
+app.listen(process.env.PORT, () => {
   console.log("Servidor conectado en el puerto 3001");
 });

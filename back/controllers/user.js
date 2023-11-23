@@ -113,7 +113,7 @@ const profile = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
-//ozyq olkc xqba nueb
+
 const verifiedUser = async (req, res) => {
   try {
     const userFound = await User.findById(req.user.id);
@@ -124,8 +124,8 @@ const verifiedUser = async (req, res) => {
       host: "smtp.gmail.com",
       port: 587,
       auth: {
-        user: "jmperez675@gmail.com",
-        pass: "ozyq olkc xqba nueb",
+        user: process.env.USER_MAIL,
+        pass: process.env.USER_PASS,
       },
     });
 
