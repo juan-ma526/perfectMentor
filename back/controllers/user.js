@@ -1,4 +1,4 @@
-const User = require("../models/Users");
+const { UserModel } = require("../models/Users");
 const jwt = require("jsonwebtoken");
 const { TOKEN_SECRET } = require("../config");
 const bcryp = require("bcrypt");
@@ -6,31 +6,24 @@ const nodemailer = require("nodemailer");
 const { createAccesToken } = require("../lib/jwt");
 
 const allUsers = async (req, res) => {
-  const users = await User.find();
+  const users = await UserModel.find();
 
   return res.send(users);
 };
 
 const signUp = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
     const passwordHash = await bcryp.hash(password, 10);
-    const newUser = new User({ name, email, password: passwordHash });
+    const newUser = new UserModel({ username, email, password: passwordHash });
 
-    const userSaved = await newUser.save();
+    await newUser.save();
 
     const token = await createAccesToken({ id: newUser._id });
 
     res.cookie("token", token);
-
-    res.send({
-      id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-      createdAt: newUser.createdAt,
-      updatedAt: newUser.updatedAt,
-    });
+    res.status(201).send(newUser);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
@@ -40,7 +33,7 @@ const signIn = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const userFound = await User.findOne({ email });
+    const userFound = await UserModel.findOne({ email });
     if (!userFound)
       return res.status(400).send({ message: "Usuario no encontrado" });
 
@@ -75,7 +68,7 @@ const verifyToken = async (req, res) => {
   jwt.verify(token, TOKEN_SECRET, async (err, user) => {
     if (err) return res.status(401).send({ message: "No autorizado" });
 
-    const userFound = await User.findById(user.id);
+    const userFound = await UserModel.findById(user.id);
     if (!userFound) return res.status(401).send({ message: "No autorizado" });
 
     return res.send({
@@ -102,7 +95,7 @@ const profile = async (req, res) => {
     const { rol, age } = req.body;
     const update = { rol, age };
 
-    const userFound = await User.findById(req.user.id);
+    const userFound = await UserModel.findById(req.user.id);
     if (!userFound)
       return res.status(400).send({ message: "Usuario no encontrado" });
 
@@ -116,7 +109,7 @@ const profile = async (req, res) => {
 
 const verifiedUser = async (req, res) => {
   try {
-    const userFound = await User.findById(req.user.id);
+    const userFound = await UserModel.findById(req.user.id);
     if (!userFound)
       return res.status(400).send({ message: "Usuario no encontrado" });
 
@@ -145,7 +138,7 @@ const verifiedUser = async (req, res) => {
       }
     });
 
-    const updateUser = await User.findOneAndUpdate(
+    const updateUser = await UserModel.findOneAndUpdate(
       { email: userFound.email },
       { status: "Verified" },
       { new: true }
@@ -165,7 +158,7 @@ const deleteUserbyId = async (req, res) => {
 
   try {
     // Intentar eliminar el usuario
-    const userDeleted = await User.deleteOne({ _id: id });
+    const userDeleted = await UserModel.deleteOne({ _id: id });
 
     // Verificar si se eliminó algún usuario
     if (userDeleted.deletedCount === 0) {
