@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 export default function SignUpPage() {
-  const [name, setName] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function SignUpPage() {
     e.preventDefault();
 
     try {
-      await signUp(name, email, password);
+      await signUp(username, email, password);
 
       if (error) {
         Swal.fire({
@@ -90,7 +90,7 @@ export default function SignUpPage() {
               type="text"
               className="border-2 border-principal-3 bg-principal-1 text-principal-3 rounded-full w-[265px] h-[55px] pl-14 absolute top-3 left-3"
               placeholder="username"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div>

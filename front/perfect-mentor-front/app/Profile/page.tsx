@@ -23,6 +23,7 @@ export default function ProfilePage() {
   const router = useRouter();
   console.log(rol, age);
   console.log(user);
+
   const handleVerifyUser = async () => {
     const response = await fetch(
       "http://localhost:3001/api/users/verifiedUser",
@@ -113,7 +114,7 @@ export default function ProfilePage() {
                 type="text"
                 id="Nombre"
                 className=" border-b-[1px] border-principal-4 w-[90%] ml-3 text-[15px] font-bold"
-                value={user?.name || ""}
+                value={user?.username || ""}
                 disabled
               />
             </label>

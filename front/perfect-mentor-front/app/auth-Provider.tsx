@@ -7,14 +7,14 @@ import Cookies from "js-cookie";
 interface ContextProps {
   user: {
     id: string;
-    name: string;
+    username: string;
     email: string;
     rol: string;
     age: string;
     status: string;
     createdAt: string;
   } | null;
-  signUp: (name: string, email: string, password: string) => any;
+  signUp: (username: string, email: string, password: string) => any;
   signIn: (email: string, password: string) => any;
   logout: () => any;
   isAuthenticated: boolean;
@@ -32,7 +32,7 @@ export default function AuthProvider({ children }: Props) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState<string[] | boolean>(false);
 
-  const signUp = async (name: string, email: string, password: string) => {
+  const signUp = async (username: string, email: string, password: string) => {
     try {
       const response = await fetch("http://localhost:3001/api/users/signUp", {
         method: "POST",
@@ -40,7 +40,11 @@ export default function AuthProvider({ children }: Props) {
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify({ name: name, email: email, password: password }),
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password,
+        }),
       });
       const data = await response.json();
       if (data.message) {

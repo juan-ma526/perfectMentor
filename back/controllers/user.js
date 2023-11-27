@@ -48,7 +48,7 @@ const signIn = async (req, res) => {
 
     res.send({
       id: userFound._id,
-      name: userFound.name,
+      username: userFound.username,
       email: userFound.email,
       rol: userFound.rol,
       age: userFound.age,
@@ -73,7 +73,7 @@ const verifyToken = async (req, res) => {
 
     return res.send({
       id: userFound._id,
-      name: userFound.name,
+      username: userFound.username,
       email: userFound.email,
       rol: userFound.rol,
       age: userFound.age,

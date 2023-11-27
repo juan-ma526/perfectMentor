@@ -15,7 +15,7 @@ import { AuthContext } from "../auth-Provider";
 import { useRouter } from "next/navigation";
 
 export interface Users {
-  name: string;
+  username: string;
   age: string;
   lastname: string;
   email: string;
@@ -151,7 +151,7 @@ export default function UsersPage() {
               <div className="flex flex-col m-auto md:flex-row  md:gap-32 md:m-auto">
                 <div className="flex gap-2">
                   <span className="text-sm font-bold leading-5 ">
-                    {persona.name} {persona.lastname}
+                    {persona.username} {persona.lastname}
                   </span>
                   <span className="text-sm font-normal leading-5 md:hidden">
                     {persona.age}
