@@ -7,10 +7,9 @@ import Titulo from "../assets/Titulo.png";
 import Linea from "../assets/Line 2 (1).png";
 import { MdOutlineMail } from "react-icons/md";
 import { AiOutlineUnlock } from "react-icons/ai";
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../auth-Provider";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
 
 export default function SignInPage() {
   const [email, setEmail] = useState<string>("");
@@ -27,38 +26,9 @@ export default function SignInPage() {
     e.preventDefault();
 
     try {
-      await signIn(email, password);
-
-      if (error) {
-        Swal.fire({
-          title: "Error!",
-          text: "Error de mail o contraseña",
-          icon: "error",
-          iconColor: "#bfd732",
-          allowOutsideClick: false,
-          timer: 1000,
-          background: "#444444",
-          color: "#bfd732",
-          customClass: {
-            popup: alertWidthClass, // Clase de ancho personalizado
-          },
-        });
-      }
+      signIn(email, password);
 
       if (isAuthenticated) {
-        Swal.fire({
-          title: "Succes!",
-          text: "Login Exitoso",
-          icon: "success",
-          iconColor: "#bfd732",
-          allowOutsideClick: false,
-          timer: 1000,
-          background: "#444444",
-          color: "#bfd732",
-          customClass: {
-            popup: alertWidthClass, // Clase de ancho personalizado
-          },
-        });
         router.push("/Users");
       }
     } catch (error) {

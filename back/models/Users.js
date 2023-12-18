@@ -31,8 +31,8 @@ const UserSchema = new moongose.Schema(
     },
     status: {
       type: String,
-      default: "unverified",
-      enum: ["unverified", "verified"],
+      default: "Unverified",
+      enum: ["unverified", "Verified"],
     },
     rol: {
       type: String,

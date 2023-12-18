@@ -6,13 +6,15 @@ import Cookies from "js-cookie";
 
 interface ContextProps {
   user: {
-    id: string;
-    username: string;
-    email: string;
-    rol: string;
     age: string;
-    status: string;
     createdAt: string;
+    email: string;
+    id: string;
+    password: string;
+    rol: string;
+    status: string;
+    updatedAt: string;
+    username: string;
   } | null;
   signUp: (username: string, email: string, password: string) => any;
   signIn: (email: string, password: string) => any;
@@ -47,10 +49,11 @@ export default function AuthProvider({ children }: Props) {
         }),
       });
       const data = await response.json();
+
       if (data.message) {
         setError(data.message);
       }
-      if (data.id) {
+      if (data._id) {
         setUser(data);
         setIsAuthenticated(true);
         setError(false);

@@ -16,5 +16,7 @@ const MatchSchema = new moongose.Schema(
   },
   { timestamps: true, versionKey: false }
 );
+// Elimina el índice único en user.email
+MatchSchema.index({ "user.email": 1 }, { unique: false });
 
 module.exports = moongose.model("Match", MatchSchema);

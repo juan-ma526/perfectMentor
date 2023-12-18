@@ -7,7 +7,8 @@ const allMatch = async (req, res) => {
 
 const createMatch = async (req, res) => {
   const { idUserDestination, user } = req.body;
-
+  console.log(idUserDestination, "user1");
+  console.log(user, "user");
   const match = new MatchModel({
     idUserDestination,
     user,

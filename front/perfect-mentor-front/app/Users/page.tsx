@@ -13,8 +13,10 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../auth-Provider";
 import { useRouter } from "next/navigation";
+import { FaCheck } from "react-icons/fa";
 
 export interface Users {
+  _id: string;
   username: string;
   age: string;
   lastname: string;
@@ -30,9 +32,10 @@ export interface Users {
 }
 
 export default function UsersPage() {
-  const { logout, isAuthenticated } = useContext(AuthContext);
+  const { user, logout, isAuthenticated } = useContext(AuthContext);
   const [users, setUsers] = useState<Users[]>([]);
   const router = useRouter();
+  console.log(user, "Usuario logeado");
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -71,6 +74,39 @@ export default function UsersPage() {
     };
     allUsers();
   }, []);
+
+  const handleUserDestination = async (id: string) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/match/createMatch",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            idUserDestination: id,
+            user: {
+              id: user?.id,
+              username: user?.username,
+              email: user?.email,
+              password: user?.password,
+              age: user?.age,
+              status: user?.status,
+              rol: user?.rol,
+              createdAt: user?.createdAt,
+              updatedAt: user?.updatedAt,
+            },
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleLogout = () => {
     try {
@@ -192,10 +228,12 @@ export default function UsersPage() {
                 >
                   {persona.status == "Verified" ? "Verified" : "Unverified"}
                 </div>
-                <AiOutlineEdit
-                  size={30}
-                  className=" cursor-pointer rounded-full bg-white mr-3 hover:border-principal-3"
-                />
+                <div
+                  className="cursor-pointer z-[99999] rounded-full p-2 bg-white mr-3 hover:border-principal-3"
+                  onClick={() => handleUserDestination(persona._id)}
+                >
+                  <FaCheck size={15} />
+                </div>
               </div>
             </div>
           );
