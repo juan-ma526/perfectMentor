@@ -1,4 +1,5 @@
 const moongose = require("mongoose");
+const { Schema } = moongose;
 
 const UserSchema = new moongose.Schema(
   {
@@ -9,15 +10,8 @@ const UserSchema = new moongose.Schema(
     },
     email: {
       type: String,
-      trim: true,
       unique: true,
-      required: [true, "Email is required"],
-      validate: {
-        validator: function (v) {
-          return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
-        },
-        message: (props) => `${props.value} is not a valid email!`,
-      },
+      required: true,
     },
     password: {
       type: String,
@@ -31,7 +25,7 @@ const UserSchema = new moongose.Schema(
     },
     status: {
       type: String,
-      default: "Unverified",
+      default: "unverified",
       enum: ["unverified", "Verified"],
     },
     rol: {
@@ -39,6 +33,12 @@ const UserSchema = new moongose.Schema(
       default: "mentee",
       enum: ["mentee", "mentor"],
     },
+    matchs: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Match",
+      },
+    ],
   },
   { timestamps: true, versionKey: false }
 );

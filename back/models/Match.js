@@ -1,5 +1,5 @@
 const moongose = require("mongoose");
-const { UserSchema } = require("./Users");
+const { Schema } = moongose;
 
 const MatchSchema = new moongose.Schema(
   {
@@ -7,16 +7,29 @@ const MatchSchema = new moongose.Schema(
       type: moongose.Schema.ObjectId,
       required: [true, "idUserDestination is required"],
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    username: {
+      type: String,
+      trim: true,
+    },
+    role: {
+      type: String,
+      trim: true,
+    },
+    email: {
+      type: String,
+      trim: true,
+    },
     status: {
       type: String,
       default: "no answer",
       enum: ["no answer", "cancel", "check it"],
     },
-    user: UserSchema,
   },
   { timestamps: true, versionKey: false }
 );
-// Elimina el índice único en user.email
-MatchSchema.index({ "user.email": 1 }, { unique: false });
 
 module.exports = moongose.model("Match", MatchSchema);
