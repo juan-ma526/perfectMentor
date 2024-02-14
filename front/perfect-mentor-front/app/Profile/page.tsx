@@ -15,6 +15,7 @@ import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NextResponse } from "next/server";
 import { Toaster, toast } from "sonner";
+import { NavbarInferior, NavbarLateral } from "../components";
 
 export default function ProfilePage() {
   const { logout, user } = useContext(AuthContext);
@@ -25,17 +26,14 @@ export default function ProfilePage() {
   console.log(user);
 
   const handleVerifyUser = async () => {
-    const response = await fetch(
-      "http://localhost:3001/api/users/verifiedUser",
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({}),
-      }
-    );
+    const response = await fetch("http://localhost:3001/api/users/verifiedUser", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({}),
+    });
     return await response.json();
 
     //return data.message;
@@ -89,9 +87,7 @@ export default function ProfilePage() {
       />
       <div className="bg-principal-1 h-[137px] w-full relative rounded-br-[3.5rem] md:absolute  md:bg-principal-2 md:rounded-3xl md:z-40">
         <div className="absolute top-6 left-7 md:top-8 md:left-24">
-          <h1 className="text-3xl font-extrabold leading-[44px] text-principal-3">
-            Profile
-          </h1>
+          <h1 className="text-3xl font-extrabold leading-[44px] text-principal-3">Profile</h1>
         </div>
         <AiOutlineEdit
           size={30}
@@ -193,99 +189,9 @@ export default function ProfilePage() {
       </div>
 
       {/*Navbar inferior*/}
-      <div className="z-50 w-full h-[82px] bg-principal-3 rounded-t-[3rem] flex justify-center items-center md:hidden">
-        <div className="flex justify-between gap-12">
-          <Link href="/Users">
-            <div className="cursor-pointer">
-              <Image src={Lupa} alt="Icono Lupa" />
-            </div>
-          </Link>
-          <Link href="/Stadistics">
-            <div className="cursor-pointer">
-              <Image src={Barras} alt="Icono Barra" />
-            </div>
-          </Link>
-          <Link href="/Reports">
-            <div className="cursor-pointer">
-              <Image src={Report} alt="Icono Reportes" />
-            </div>
-          </Link>
-          <Link href="/Profile">
-            <div className="cursor-pointer">
-              <Image src={User} alt="Icono Usuario" />
-            </div>
-          </Link>
-          <div onClick={handleLogout} className="cursor-pointer">
-            <BiLogOut className="bg-principal-1 rounded-lg" size={27} />
-          </div>
-        </div>
-      </div>
+      <NavbarInferior />
       {/*Navbar lateral*/}
-      <div className="hidden md:flex md:absolute md:top-[48px] md:-left-[246px] md:flex-col md:gap-5">
-        <Image src={Titulo} alt="Titulo" />
-        <div className="md:absolute md:top-[249px] md:z-50 md:w-[297px] md:h-full md:bg-principal-1 md:flex md:flex-col md:justify-center md:items-center md:-left-[52px] ">
-          <ul className="md:flex md:justify-between  md:h-[400px] md:flex-col md:m-auto md:w-[18.55rem]">
-            <Link href="/Users">
-              <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6 md:hover:text-principal-1">
-                <li>
-                  <Image
-                    src={Lupa}
-                    alt="Icono lupa"
-                    className="md:bg-principal-4"
-                  />
-                </li>
-                <h2 className="md:text-principal-4">Users</h2>
-              </div>
-            </Link>
-            <Link href="/Stadistics">
-              <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
-                <li>
-                  <Image
-                    src={Barras}
-                    alt="Icono lupa"
-                    className="md:bg-principal-4"
-                  />
-                </li>
-                <h2 className="md:text-principal-4">Stadistics</h2>
-              </div>
-            </Link>
-            <Link href="/Reports">
-              <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
-                <li>
-                  <Image
-                    src={Report}
-                    alt="Icono lupa"
-                    className="md:bg-principal-4"
-                  />
-                </li>
-                <h2 className="md:text-principal-4">Reports</h2>
-              </div>
-            </Link>
-            <Link href="/Profile">
-              <div className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6">
-                <li>
-                  <Image
-                    src={User}
-                    alt="Icono lupa"
-                    className="md:bg-principal-4"
-                  />
-                </li>
-                <h2 className="md:text-principal-4">Profile</h2>
-              </div>
-            </Link>
-            <div
-              onClick={handleLogout}
-              className="md:cursor-pointer md:flex md:gap-5 md:hover:bg-principal-3 md:w-full md:p-6"
-            >
-              <BiLogOut
-                className="md:bg-principal-4 md:rounded-full"
-                size={25}
-              />
-              <h2 className="md:text-principal-4">Log Out</h2>
-            </div>
-          </ul>
-        </div>
-      </div>
+      <NavbarLateral />
     </div>
   );
 }
