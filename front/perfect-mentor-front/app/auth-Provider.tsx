@@ -97,15 +97,14 @@ export default function AuthProvider({ children }: Props) {
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify({}),
       });
       const data = await response.json();
+
       Cookies.remove("token");
       setUser(null);
       setIsAuthenticated(false);
       setError(false);
-
-      return NextResponse.json(data);
+      return data;
     } catch (error) {
       console.log(error);
     }
@@ -116,18 +115,21 @@ export default function AuthProvider({ children }: Props) {
       const cookies = Cookies.get();
       if (cookies.token) {
         try {
-          const response = await fetch(
-            "http://localhost:3001/api/users/verifyToken",
-            {
-              method: "GET",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          const response = await fetch("http://localhost:3001/api/users/verifyToken", {
+            method: "GET",
+            credentials: "include",
+            next: {
+              revalidate: 60,
+            },
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
           const data = await response.json();
-          if (!data) setIsAuthenticated(false);
+          console.log(data, "data");
+          if (!data) {
+            setIsAuthenticated(false);
+          }
 
           setIsAuthenticated(true);
           setUser(data);
@@ -141,9 +143,7 @@ export default function AuthProvider({ children }: Props) {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ signUp, user, isAuthenticated, error, signIn, logout }}
-    >
+    <AuthContext.Provider value={{ signUp, user, isAuthenticated, error, signIn, logout }}>
       {children}
     </AuthContext.Provider>
   );

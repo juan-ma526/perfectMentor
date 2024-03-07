@@ -1,29 +1,20 @@
 "use client";
+
 import { AiOutlineEdit } from "react-icons/ai";
-import Barras from "../assets/Barras.png";
-import Lupa from "../assets/Lupa.png";
-import Report from "../assets/Report.png";
-import User from "../assets/User.png";
 import Image from "next/image";
-import Titulo from "../assets/Titulo.png";
-import { BiLogOut } from "react-icons/bi";
 import Resorte from "../assets/doodle-5 1.png";
 import Avatar from "../assets/Avatar.png";
-import Link from "next/link";
 import { AuthContext } from "../auth-Provider";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { NextResponse } from "next/server";
 import { Toaster, toast } from "sonner";
 import { NavbarInferior, NavbarLateral } from "../components";
 
 export default function ProfilePage() {
-  const { logout, user } = useContext(AuthContext);
-  const [rol, setRol] = useState(user?.rol || "");
-  const [age, setAge] = useState(user?.age || "");
   const router = useRouter();
-  console.log(rol, age);
-  console.log(user);
+  const { user } = useContext(AuthContext);
+  const [rol, setRol] = useState("");
+  const [age, setAge] = useState(user?.age || "");
 
   const handleVerifyUser = async () => {
     const response = await fetch("http://localhost:3001/api/users/verifiedUser", {
@@ -39,6 +30,7 @@ export default function ProfilePage() {
     //return data.message;
   };
 
+  //Cambia rol y age
   const handleUpdateUser = async () => {
     try {
       const response = await fetch("http://localhost:3001/api/users/profile", {
@@ -56,20 +48,13 @@ export default function ProfilePage() {
 
       toast.success("Usuario Actualizado");
 
-      return NextResponse.json(data);
+      router.refresh();
+
+      return data;
     } catch (error) {
       console.log(error);
       toast.error("Error al actualizar Usuario");
       throw error;
-    }
-  };
-
-  const handleLogout = () => {
-    try {
-      logout();
-      router.push("/SignIn");
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -145,7 +130,7 @@ export default function ProfilePage() {
                   type="text"
                   id="Age"
                   className="border-b-[1px] border-principal-4 w-[90%] ml-1 text-[15px] font-bold md:mt-3 md:w-[463px] pl-3 md:pl-3"
-                  value={age || ""}
+                  value={age}
                   onChange={(e) => setAge(e.target.value)}
                 />
               </label>
@@ -185,7 +170,7 @@ export default function ProfilePage() {
             </button>
           </div>
         </div>
-        <Toaster position="bottom-center" />
+        <Toaster position="top-center" />
       </div>
 
       {/*Navbar inferior*/}

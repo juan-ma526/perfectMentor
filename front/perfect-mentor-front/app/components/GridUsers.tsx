@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Users } from "../interfaces";
 import { UserItem } from ".";
+
 interface Props {
   users: Users[];
 }

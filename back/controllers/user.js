@@ -34,13 +34,11 @@ const signIn = async (req, res) => {
 
   try {
     const userFound = await UserModel.findOne({ email });
-    if (!userFound)
-      return res.status(400).send({ message: "Usuario no encontrado" });
+    if (!userFound) return res.status(400).send({ message: "Usuario no encontrado" });
 
     const isMatch = await bcryp.compare(password, userFound.password);
 
-    if (!isMatch)
-      return res.status(400).send({ message: "Credencial invalida" });
+    if (!isMatch) return res.status(400).send({ message: "Credencial invalida" });
 
     const token = await createAccesToken({ id: userFound._id });
 
@@ -100,8 +98,7 @@ const profile = async (req, res) => {
     const update = { rol, age };
 
     const userFound = await UserModel.findById(req.user.id);
-    if (!userFound)
-      return res.status(400).send({ message: "Usuario no encontrado" });
+    if (!userFound) return res.status(400).send({ message: "Usuario no encontrado" });
 
     const userUpdated = await userFound.updateOne(update);
 
@@ -114,8 +111,7 @@ const profile = async (req, res) => {
 const verifiedUser = async (req, res) => {
   try {
     const userFound = await UserModel.findById(req.user.id);
-    if (!userFound)
-      return res.status(400).send({ message: "Usuario no encontrado" });
+    if (!userFound) return res.status(400).send({ message: "Usuario no encontrado" });
 
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -148,9 +144,7 @@ const verifiedUser = async (req, res) => {
       { new: true }
     );
 
-    res
-      .status(200)
-      .send({ message: "Correo enviado y actualizado correctamente" });
+    res.status(200).send({ message: "Correo enviado y actualizado correctamente" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Error en el servidor" });
