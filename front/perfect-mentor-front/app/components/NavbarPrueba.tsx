@@ -1,5 +1,14 @@
 "use client";
+
+import Link from "next/link";
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 export default function NavbarPrueba() {
+  const [user] = useAuthState(auth);
+  const signOut = (auth: any) => {
+    signOut(auth);
+  };
   return (
     <>
       <header className="bg-gray-800">
@@ -16,9 +25,9 @@ export default function NavbarPrueba() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-white">
-                    About
-                  </a>
+                  <Link href="/SignIn" className="text-white">
+                    SignIn
+                  </Link>
                 </li>
                 <li>
                   <a href="#" className="text-white">
@@ -26,9 +35,9 @@ export default function NavbarPrueba() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-white">
-                    Contact
-                  </a>
+                  <button onClick={() => auth.signOut()} className="text-white">
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>
@@ -38,9 +47,9 @@ export default function NavbarPrueba() {
                   className="w-6 h-6 text-white"
                   x-show="!showMenu"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
@@ -58,7 +67,7 @@ export default function NavbarPrueba() {
               </li>
               <li>
                 <a href="#" className="block px-4 py-2 text-white bg-gray-900 rounded">
-                  About
+                  SignIn
                 </a>
               </li>
               <li>
@@ -68,7 +77,7 @@ export default function NavbarPrueba() {
               </li>
               <li>
                 <a href="#" className="block px-4 py-2 text-white bg-gray-900 rounded">
-                  Contact
+                  Logout
                 </a>
               </li>
             </ul>
