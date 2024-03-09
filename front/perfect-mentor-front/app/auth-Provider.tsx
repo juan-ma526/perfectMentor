@@ -118,15 +118,12 @@ export default function AuthProvider({ children }: Props) {
           const response = await fetch("http://localhost:3001/api/users/verifyToken", {
             method: "GET",
             credentials: "include",
-            next: {
-              revalidate: 60,
-            },
+            cache: "no-store",
             headers: {
               "Content-Type": "application/json",
             },
           });
           const data = await response.json();
-          console.log(data, "data");
           if (!data) {
             setIsAuthenticated(false);
           }
