@@ -5,6 +5,7 @@ import Lupa from "../assets/Lupa.png";
 import Barras from "../assets/Barras.png";
 import User from "../assets/User.png";
 import Report from "../assets/Report.png";
+import { LogoutMobil } from ".";
 
 export const NavbarInferior = () => {
   return (
@@ -30,9 +31,7 @@ export const NavbarInferior = () => {
             <Image src={User} alt="Icono lupa" />
           </div>
         </Link>
-        {/*   <div onClick={handleLogout} className="cursor-pointer">
-      <BiLogOut className="bg-principal-1 rounded-lg" size={27} />
-    </div> */}
+        <LogoutMobil />
       </div>
     </div>
   );

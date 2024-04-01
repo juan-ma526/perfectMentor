@@ -2,7 +2,7 @@ import { BiSearch } from "react-icons/bi";
 import Image from "next/image";
 import Resorte from "../assets/doodle-5 1.png";
 import { Users } from "../interfaces";
-import { GridUsers, NavbarInferior, NavbarLateral } from "../components";
+import { GridUsers, NavbarInferior, NavbarLateral, Pagination } from "../components";
 
 export const metadata = {
   title: "Users Page",
@@ -14,7 +14,7 @@ const getAllUsers = async (): Promise<Users[]> => {
     method: "GET",
     credentials: "include",
     next: {
-      revalidate: 60,
+      revalidate: 0,
     },
     headers: {
       "Content-type": "application/json",
@@ -83,7 +83,7 @@ export default async function UsersPage() {
   }; */
 
   return (
-    <div className="flex flex-col  bg-principal-2 md:w-[1289px] md:h-[860px] md:z-50 md:top-[41px] md:left-[299px] md:absolute md:rounded-3xl ">
+    <div className="flex flex-col md:mb-0  bg-principal-2 md:w-[1289px] md:h-[860px] md:z-50 md:top-[41px] md:left-[299px] md:absolute md:rounded-3xl ">
       <Image
         src={Resorte}
         alt="imagen resorte"
@@ -111,10 +111,11 @@ export default async function UsersPage() {
         </div>
       </div>
       {/*Parte del medio*/}
-      <div className="bg-white w-[355px] max-h-[640px] m-auto mt-9 relative flex flex-col  md:rounded-3xl md:w-[1235px] md:h-[700px] md:top-[9.5rem] md:left-6">
+      <div className="bg-white min-h-[550px] md:min-h-[600px] w-[355px] m-auto mt-9 relative flex flex-col  md:rounded-3xl md:w-[1235px]  md:top-[9.5rem] md:left-6 mb-[91px]">
         {/* Aca va el arreglo filtrado*/}
         <GridUsers users={users} />
       </div>
+      <Pagination />
       {/*Navbar inferior*/}
       <NavbarInferior />
       {/*Navbar lateral*/}

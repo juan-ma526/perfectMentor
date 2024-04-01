@@ -7,7 +7,6 @@ interface Props {
 }
 
 export const UserItem = ({ user }: Props) => {
-  console.log(user);
   return (
     <tr className="hover:bg-gray-50">
       <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
