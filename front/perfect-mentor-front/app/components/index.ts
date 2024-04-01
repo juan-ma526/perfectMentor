@@ -1,5 +1,6 @@
 export { GridUsers } from "./GridUsers";
 export { UserItem } from "./UserItem";
+export { ProfileCard } from "./ProfileCard";
 export { Pagination } from "./Pagination";
 
 export { NavbarInferior } from "./NavbarInferior";
