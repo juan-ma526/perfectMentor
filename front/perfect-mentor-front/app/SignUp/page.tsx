@@ -11,31 +11,17 @@ import { AiOutlineUnlock } from "react-icons/ai";
 import { AuthContext } from "../auth-Provider";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
-  const { signUp, isAuthenticated, error } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/Users");
-    }
-  }, [isAuthenticated]);
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
-    let alertWidthClass = ""; // Clase de ancho predeterminado
-    if (window.innerWidth <= 600) {
-      // Pantalla pequeña (puedes ajustar este valor según tus necesidades)
-      alertWidthClass = "w-[300px] md:w-3/4 "; // Ajusta según tus necesidades
-    }
     e.preventDefault();
 
     try {
-      signUp(username, email, password);
     } catch (error) {
       console.log(error);
     }
@@ -50,15 +36,9 @@ export default function SignUpPage() {
         <div className="text-principal-3 absolute left-5 top-14 md:left-[34.25rem]">
           .............................................................
         </div>
-        <form
-          onSubmit={handleRegister}
-          className="absolute top-20 md:left-[33rem] flex flex-col gap-4"
-        >
+        <form onSubmit={handleRegister} className="absolute top-20 md:left-[33rem] flex flex-col gap-4">
           <div className="flex">
-            <BiUser
-              size={25}
-              className="bg-white rounded-full z-10 absolute left-7 top-7"
-            />
+            <BiUser size={25} className="bg-white rounded-full z-10 absolute left-7 top-7" />
             <input
               type="text"
               className="border-2 border-principal-3 bg-principal-1 text-principal-3 rounded-full w-[265px] h-[55px] pl-14 absolute top-3 left-3"
@@ -67,10 +47,7 @@ export default function SignUpPage() {
             />
           </div>
           <div>
-            <MdOutlineMail
-              size={25}
-              className="bg-white rounded-full z-10 absolute left-7 top-[107px]"
-            />
+            <MdOutlineMail size={25} className="bg-white rounded-full z-10 absolute left-7 top-[107px]" />
             <input
               type="email"
               className="border-2 border-principal-3 bg-principal-1 text-principal-3 rounded-full w-[265px] h-[55px] pl-14 absolute top-[5.75rem] left-3"
@@ -79,10 +56,7 @@ export default function SignUpPage() {
             />
           </div>
           <div>
-            <AiOutlineUnlock
-              size={25}
-              className="bg-white rounded-full z-10 absolute left-7 top-48"
-            />
+            <AiOutlineUnlock size={25} className="bg-white rounded-full z-10 absolute left-7 top-48" />
             <input
               type="password"
               className="border-2 border-principal-3 bg-principal-1 text-principal-3 rounded-full w-[265px] h-[55px] pl-14 absolute top-44 left-3"
@@ -91,26 +65,16 @@ export default function SignUpPage() {
             />
           </div>
           <div className="absolute -right-[19.5rem] -bottom-[21.5rem] flex  justify-center items-center gap-3 md:-right-[19.75rem] md:-bottom-[18.75rem] ">
-            <button className="bg-principal-3 text-white p-4 rounded-full cursor-pointer  w-[315px]">
-              Sign Up
-            </button>
+            <button className="bg-principal-3 text-white p-4 rounded-full cursor-pointer  w-[315px]">Sign Up</button>
           </div>
         </form>
-        <Image
-          className="-top-[8rem] absolute left-1 md:-top-32 md:left-[30.25rem]"
-          src={Titulo}
-          alt="Titulo"
-        />
+        <Image className="-top-[8rem] absolute left-1 md:-top-32 md:left-[30.25rem]" src={Titulo} alt="Titulo" />
         <Image
           className="hidden absolute md:inline-block md:-top-[4.5rem] md:-left-9 md:h-[572px] md:w-[572px]"
           src={Saly2}
           alt="Imagen saly 2"
         />
-        <Image
-          className="hidden absolute md:inline-block h-96 md:top-8 md:left-[30.25rem]"
-          src={Linea}
-          alt="Layout"
-        />
+        <Image className="hidden absolute md:inline-block h-96 md:top-8 md:left-[30.25rem]" src={Linea} alt="Layout" />
         <Image
           className="-top-44 absolute left-[11.25rem] md:top-[16.25rem] md:-left-[0.25rem]"
           src={Doodle}
