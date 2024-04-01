@@ -25,7 +25,6 @@ const getAllUsers = async (): Promise<Users[]> => {
 };
 
 export default async function UsersPage() {
-  // const { user, logout, isAuthenticated } = useContext(AuthContext);
   //const [users, setUsers] = useState<Users[]>([]);
   const users = await getAllUsers();
 

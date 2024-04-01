@@ -19,135 +19,13 @@ const getAllUsers = async (): Promise<Users[]> => {
   return users;
 };
 
+export const metadata = {
+  title: "Report Page",
+  description: "Pagina para ver los reportes",
+};
+
 export default async function ReportPage() {
   const users = await getAllUsers();
-  console.log("estoy en report", users);
-  const commonStyles =
-    "w-[315px] h-[102px] m-auto flex gap-6 rounded-[20px] mb-2 p-3 md:w-[97%] md:h-[60px] md:ml-3 md:mr-3";
-
-  const commonStylesVerified =
-    "w-[82px] h-[40px] rounded-[40px] border-2 text-xs flex justify-center items-center mr-1 cursor-pointer";
-
-  const listaPersonas = [
-    {
-      Nombre: "Marta",
-      Edad: "33",
-      Apellido: "Sanchez",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "Argentina",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Ingles",
-      Verificado: false,
-      JoinedDate: "abril 22,2022",
-      Respondio: "No answer",
-    },
-    // Repite el mismo formato para las otras 4 personas
-    {
-      Nombre: "Martin",
-      Edad: "33",
-      Apellido: "Perez",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "Brasil",
-      Profesion: "Fullstack",
-      Descripcion: "lorem opasdjasj laskdid",
-      Foto: "",
-      Rol: "Mentor",
-      Skills: "Node, Mongodb, Javascript",
-      Idioma: "Español",
-      Verificado: true,
-      JoinedDate: "Jan 22, 2012",
-      Respondio: "Check it",
-    },
-    {
-      // Datos de la tercera persona
-      Nombre: "Carlos",
-      Edad: "19",
-      Apellido: "Sanchez",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "Argentina",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Ingles",
-      Verificado: true,
-      JoinedDate: "feb 15, 1988",
-      Respondio: "Check it",
-    },
-    {
-      // Datos de la cuarta persona
-      Nombre: "Felipe",
-      Edad: "25",
-      Apellido: "Melo",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "España",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Español",
-      Verificado: false,
-      JoinedDate: "Dic 22, 2015",
-      Respondio: "No answer",
-    },
-    {
-      // Datos de la cuarta persona
-      Nombre: "Felipe",
-      Edad: "25",
-      Apellido: "Melo",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "España",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Español",
-      Verificado: true,
-      JoinedDate: "Dic 22, 2015",
-      Respondio: "Check it",
-    },
-    {
-      // Datos de la cuarta persona
-      Nombre: "Felipe",
-      Edad: "25",
-      Apellido: "Melo",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "España",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Español",
-      Verificado: false,
-      JoinedDate: "Dic 22, 2015",
-      Respondio: "No answer",
-    },
-    {
-      // Datos de la cuarta persona
-      Nombre: "Felipe",
-      Edad: "25",
-      Apellido: "Melo",
-      Email: "sanchez@gmail.com",
-      PaisResidencia: "España",
-      Profesion: "Frontend",
-      Descripcion: "Desarrolladora blasjd asuqwej ansddasjkdsau9ratjkasd",
-      Foto: "",
-      Rol: "Mentee",
-      Skills: "React, Javascript, Css",
-      Idioma: "Español",
-      Verificado: false,
-      JoinedDate: "Dic 22, 2015",
-      Respondio: "No answer",
-    },
-  ];
 
   return (
     <div className="flex flex-col  bg-principal-2 md:w-[1289px] md:h-[860px] md:z-50 md:top-[41px] md:left-[299px] md:absolute md:rounded-3xl ">
@@ -180,45 +58,6 @@ export default async function ReportPage() {
       {/*Parte del medio*/}
       <div className="bg-white w-[355px] max-h-[640px] m-auto mt-9 relative pt-3 flex flex-col overflow-y-auto md:rounded-3xl md:w-[1235px] md:h-[700px] md:top-[9.5rem] md:left-6 md:pt-[4.75rem] rounded-3xl">
         <GridUsers users={users} />
-        {/*  {listaPersonas.map((persona, index) => {
-          return (
-            <div
-              className={persona.Verificado ? `bg-green-100 ${commonStyles}` : `bg-rose-100 ${commonStyles}`}
-              key={index}
-            >
-              <div className="flex flex-col m-auto md:flex-row  md:gap-32">
-                <div className="flex gap-2">
-                  <span className="text-sm font-bold leading-5 ">
-                    {persona.Nombre} {persona.Apellido}
-                  </span>
-                </div>
-                <div className="flex gap-2 ">
-                  <span className="text-sm font-bold leading-5 md:hidden">email:</span>
-                  <span className="text-sm font-normal leading-5">{persona.Email}</span>
-                </div>
-                <div className="flex gap-2 ">
-                  <span className="text-sm font-bold leading-5 md:hidden">Role:</span>
-                  <span className="text-sm font-normal leading-5">{persona.Rol}</span>
-                </div>
-                <div className="flex gap-2 ">
-                  <span className="text-sm font-bold leading-5 md:hidden">Joined date:</span>
-                  <span className="text-sm font-normal leading-5">{persona.JoinedDate}</span>
-                </div>
-              </div>
-              <div className="flex flex-col items-end justify-around md:flex-row md:gap-11">
-                <div
-                  className={
-                    persona.Respondio == "Check it"
-                      ? `bg-green-300 text-green-900  ${commonStylesVerified}`
-                      : `bg-rose-300 text-rose-900  ${commonStylesVerified}`
-                  }
-                >
-                  {persona.Respondio == "Check it" ? "Check it" : "No answer"}
-                </div>
-              </div>
-            </div>
-          );
-        })} */}
       </div>
 
       {/*Navbar inferior*/}

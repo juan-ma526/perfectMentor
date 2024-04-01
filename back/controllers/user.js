@@ -110,6 +110,7 @@ const profile = async (req, res) => {
 
     const userFound = await UserModel.findById(req.user.id);
     if (!userFound) return res.status(400).send({ message: "Usuario no encontrado" });
+    if (!userFound) return res.status(400).send({ message: "Usuario no encontrado" });
 
     const userUpdated = await userFound.updateOne(update);
 
@@ -122,6 +123,7 @@ const profile = async (req, res) => {
 const verifiedUser = async (req, res) => {
   try {
     const userFound = await UserModel.findById(req.user.id);
+    if (!userFound) return res.status(400).send({ message: "Usuario no encontrado" });
     if (!userFound) return res.status(400).send({ message: "Usuario no encontrado" });
 
     const transporter = nodemailer.createTransport({
@@ -155,6 +157,7 @@ const verifiedUser = async (req, res) => {
       { new: true }
     );
 
+    res.status(200).send({ message: "Correo enviado y actualizado correctamente" });
     res.status(200).send({ message: "Correo enviado y actualizado correctamente" });
   } catch (error) {
     console.log(error);
