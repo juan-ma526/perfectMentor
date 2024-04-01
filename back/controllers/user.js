@@ -34,13 +34,11 @@ const signIn = async (req, res) => {
 
   try {
     const userFound = await UserModel.findOne({ email });
-    if (!userFound)
-      return res.status(400).send({ message: "Usuario no encontrado" });
+    if (!userFound) return res.status(400).send({ message: "Correo incorrecto" });
 
     const isMatch = await bcryp.compare(password, userFound.password);
 
-    if (!isMatch)
-      return res.status(400).send({ message: "Credencial invalida" });
+    if (!isMatch) return res.status(400).send({ message: "Password Incorrecto" });
 
     const token = await createAccesToken({ id: userFound._id });
 
@@ -63,35 +61,46 @@ const signIn = async (req, res) => {
 };
 
 const verifyToken = async (req, res) => {
-  const { token } = req.cookies;
+  try {
+    const { token } = req.cookies;
+    if (!token) return res.status(401).json(null);
 
-  if (!token) return res.status(401).send({ message: "No autorizado" });
+    if (token) {
+      jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+        if (err) return res.status(401).json({ message: "No autorizado" });
 
-  jwt.verify(token, TOKEN_SECRET, async (err, user) => {
-    if (err) return res.status(401).send({ message: "No autorizado" });
+        const userFound = await UserModel.findById(user.id);
+        if (!userFound) return res.status(401).json({ message: "No autorizado" });
 
-    const userFound = await UserModel.findById(user.id);
-    if (!userFound) return res.status(401).send({ message: "No autorizado" });
-
-    return res.send({
-      id: userFound._id,
-      username: userFound.username,
-      email: userFound.email,
-      password: userFound.password,
-      status: userFound.status,
-      rol: userFound.rol,
-      age: userFound.age,
-      status: userFound.status,
-      createdAt: userFound.createdAt,
-    });
-  });
+        return res.status(201).json({
+          id: userFound._id,
+          username: userFound.username,
+          email: userFound.email,
+          password: userFound.password,
+          status: userFound.status,
+          rol: userFound.rol,
+          age: userFound.age,
+          status: userFound.status,
+          createdAt: userFound.createdAt,
+        });
+      });
+    } else {
+      res.status(401).json(null);
+    }
+  } catch (error) {
+    return res.status(401).json(null);
+  }
 };
 
 const logout = async (req, res) => {
-  res.cookie("token", "", {
-    expires: new Date(0),
-  });
-  return res.status(200).send({ message: "Te deslogeaste exitosamente" });
+  try {
+    res.cookie("token", "", {
+      expires: new Date(0),
+    });
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(401).json({ error: error });
+  }
 };
 
 const profile = async (req, res) => {
@@ -100,8 +109,7 @@ const profile = async (req, res) => {
     const update = { rol, age };
 
     const userFound = await UserModel.findById(req.user.id);
-    if (!userFound)
-      return res.status(400).send({ message: "Usuario no encontrado" });
+    if (!userFound) return res.status(400).send({ message: "Usuario no encontrado" });
 
     const userUpdated = await userFound.updateOne(update);
 
@@ -114,8 +122,7 @@ const profile = async (req, res) => {
 const verifiedUser = async (req, res) => {
   try {
     const userFound = await UserModel.findById(req.user.id);
-    if (!userFound)
-      return res.status(400).send({ message: "Usuario no encontrado" });
+    if (!userFound) return res.status(400).send({ message: "Usuario no encontrado" });
 
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -148,9 +155,7 @@ const verifiedUser = async (req, res) => {
       { new: true }
     );
 
-    res
-      .status(200)
-      .send({ message: "Correo enviado y actualizado correctamente" });
+    res.status(200).send({ message: "Correo enviado y actualizado correctamente" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Error en el servidor" });
