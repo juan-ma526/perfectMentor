@@ -25,22 +25,7 @@ const getAllUsers = async (): Promise<Users[]> => {
 };
 
 export default async function UsersPage() {
-  //const [users, setUsers] = useState<Users[]>([]);
   const users = await getAllUsers();
-
-  // const router = useRouter();
-
-  /*  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/SignIn");
-    }
-  }, [isAuthenticated]); */
-
-  const commonStyles =
-    "w-[315px] h-[102px] m-auto flex gap-6 rounded-[20px] mb-2 p-3 md:w-full md:h-[60px] md:ml-3 md:mr-3";
-
-  const commonStylesVerified =
-    "w-[82px] h-[20px] rounded-[40px] border-2 text-xs flex justify-center items-center mr-1";
 
   /* const handleUserDestination = async (id: string) => {
     try {
@@ -67,15 +52,6 @@ export default async function UsersPage() {
       });
       const data = await response.json();
       console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
-
-  /*   const handleLogout = () => {
-    try {
-      logout();
-      router.push("/SignIn");
     } catch (error) {
       console.log(error);
     }
@@ -110,7 +86,7 @@ export default async function UsersPage() {
         </div>
       </div>
       {/*Parte del medio*/}
-      <div className="bg-white min-h-[550px] md:min-h-[600px] w-[355px] m-auto mt-9 relative flex flex-col  md:rounded-3xl md:w-[1235px]  md:top-[9.5rem] md:left-6 mb-[91px]">
+      <div className="bg-white min-h-[530px] md:min-h-[576px] w-[355px] m-auto mt-14 relative flex flex-col  md:rounded-3xl md:w-[1235px]  md:top-[9.5rem] md:left-6 mb-[91px]">
         {/* Aca va el arreglo filtrado*/}
         <GridUsers users={users} />
       </div>

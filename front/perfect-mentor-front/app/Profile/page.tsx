@@ -1,7 +1,8 @@
 import { AiOutlineEdit } from "react-icons/ai";
 import Image from "next/image";
 import Resorte from "../assets/doodle-5 1.png";
-import { NavbarInferior, NavbarLateral, ProfileCard } from "../components";
+import { Loading, NavbarInferior, NavbarLateral, ProfileCard } from "../components";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Profile Page",
@@ -31,7 +32,9 @@ export default function ProfilePage() {
         />
       </div>
       {/*Parte del medio*/}
-      <ProfileCard />
+      <Suspense fallback={<Loading />}>
+        <ProfileCard />
+      </Suspense>
 
       {/*Navbar inferior*/}
       <NavbarInferior />
