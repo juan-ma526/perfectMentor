@@ -1,16 +1,13 @@
+"use client";
 import { BiSearch } from "react-icons/bi";
 import Image from "next/image";
 import Resorte from "../assets/doodle-5 1.png";
-import { Users } from "../interfaces";
-import { GridUsers, NavbarInferior, NavbarLateral, Pagination } from "../components";
+import { GridUsers, Loading, NavbarInferior, NavbarLateral, Pagination } from "../components";
+import { Data } from "../interfaces/userInterface";
+import { useEffect, useState } from "react";
 
-export const metadata = {
-  title: "Users Page",
-  description: "Page with all Users",
-};
-
-const getAllUsers = async (): Promise<Users[]> => {
-  const users = await fetch("http://localhost:3001/api/users/allUsers", {
+const getAllUsers = async (page?: number): Promise<Data> => {
+  const users = await fetch(`http://localhost:3001/api/users/allUsers?page=${page}`, {
     method: "GET",
     credentials: "include",
     next: {
@@ -24,38 +21,26 @@ const getAllUsers = async (): Promise<Users[]> => {
   return users;
 };
 
-export default async function UsersPage() {
-  const users = await getAllUsers();
+export default function UsersPage() {
+  const [data, setData] = useState<Data | null>(null);
+  const [page, setPage] = useState(1);
 
-  /* const handleUserDestination = async (id: string) => {
-    try {
-      const response = await fetch("http://localhost:3001/api/match/createMatch", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          idUserDestination: id,
-          user: {
-            id: user?.id,
-            username: user?.username,
-            email: user?.email,
-            password: user?.password,
-            age: user?.age,
-            status: user?.status,
-            rol: user?.rol,
-            createdAt: user?.createdAt,
-            updatedAt: user?.updatedAt,
-          },
-        }),
-      });
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
+  useEffect(() => {
+    const fetchData = async () => {
+      const datos = await getAllUsers(page);
+      setData(datos);
+    };
+
+    fetchData();
+  }, [page]);
+
+  if (!data) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col md:mb-0  bg-principal-2 md:w-[1289px] md:h-[860px] md:z-50 md:top-[41px] md:left-[299px] md:absolute md:rounded-3xl ">
@@ -88,9 +73,9 @@ export default async function UsersPage() {
       {/*Parte del medio*/}
       <div className="bg-white min-h-[530px] md:min-h-[576px] w-[355px] m-auto mt-14 relative flex flex-col  md:rounded-3xl md:w-[1235px]  md:top-[9.5rem] md:left-6 mb-[91px]">
         {/* Aca va el arreglo filtrado*/}
-        <GridUsers users={users} />
+        <GridUsers users={data.docs} />
       </div>
-      <Pagination />
+      <Pagination setPage={setPage} totalPages={data.totalPages} prevPage={data.prevPage} nextPage={data.nextPage} />
       {/*Navbar inferior*/}
       <NavbarInferior />
       {/*Navbar lateral*/}

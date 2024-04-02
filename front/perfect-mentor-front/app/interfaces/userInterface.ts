@@ -1,15 +1,25 @@
-export interface Users {
+export interface Data {
+  docs: User[];
+  totalDocs: number;
+  limit: number;
+  totalPages: number;
+  page: number;
+  pagingCounter: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  prevPage: null;
+  nextPage: number;
+}
+
+export interface User {
   _id: string;
   username: string;
-  age: string;
-  lastname: string;
   email: string;
-  country: string;
-  profession: string;
-  description: string;
-  photo: string;
-  rol: string;
-  Skills: string;
+  password: string;
+  age: number;
   status: string;
+  rol: string;
+  matchs: string[];
   createdAt: string;
+  updatedAt: string;
 }
