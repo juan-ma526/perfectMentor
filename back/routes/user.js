@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
   allUsers,
+  createMany,
   signUp,
   signIn,
   logout,
@@ -14,6 +15,7 @@ const {
 const { authRequired } = require("../middlewares/validateToken");
 
 router.get("/allUsers", allUsers);
+router.get("/createMany", createMany);
 
 router.post("/signUp", signUp);
 router.post("/signIn", signIn);

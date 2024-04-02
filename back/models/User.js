@@ -1,4 +1,6 @@
 const moongose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
+
 const { Schema } = moongose;
 
 const UserSchema = new moongose.Schema(
@@ -42,6 +44,8 @@ const UserSchema = new moongose.Schema(
   },
   { timestamps: true, versionKey: false }
 );
+
+UserSchema.plugin(mongoosePaginate);
 
 module.exports = {
   UserModel: moongose.model("User", UserSchema),

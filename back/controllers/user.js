@@ -6,9 +6,134 @@ const nodemailer = require("nodemailer");
 const { createAccesToken } = require("../lib/jwt");
 
 const allUsers = async (req, res) => {
-  const users = await UserModel.find();
+  try {
+    const { page } = req.query;
 
-  return res.send(users);
+    const options = {
+      page: Number(page) || 1,
+      limit: 6,
+    };
+
+    const users = await UserModel.paginate({}, options);
+
+    return res.status(200).json(users);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const createMany = async (req, res) => {
+  const seed = async () => {
+    try {
+      let users = await UserModel.create([
+        {
+          username: "test10",
+          email: "test10@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test11",
+          email: "test11@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test12",
+          email: "test12@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test13",
+          email: "test13@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test14",
+          email: "test14@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test15",
+          email: "test15@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test16",
+          email: "test16@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test17",
+          email: "test17@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test18",
+          email: "test18@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test19",
+          email: "test19@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test20",
+          email: "test20@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test21",
+          email: "test21@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test22",
+          email: "test22@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test23",
+          email: "test23@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test24",
+          email: "test24@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test25",
+          email: "test25@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test26",
+          email: "test26@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test27",
+          email: "test27@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test28",
+          email: "test28@mail.com",
+          password: "1234",
+        },
+        {
+          username: "test29",
+          email: "test29@mail.com",
+          password: "1234",
+        },
+      ]);
+    } catch (error) {
+      throw error;
+    }
+    return seed;
+  };
+  const users = await seed();
+  res.json("Seed ejecutado con exito");
 };
 
 const signUp = async (req, res) => {
@@ -185,6 +310,7 @@ const deleteUserbyId = async (req, res) => {
 
 module.exports = {
   allUsers,
+  createMany,
   signUp,
   signIn,
   logout,
