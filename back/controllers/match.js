@@ -6,37 +6,31 @@ const allMatch = async (req, res) => {
   res.send(matchs);
 };
 
-const createMatch = async (req, res) => {
-  const { idUserDestination, user } = req.body;
+const deleteAllMatch = async (req, res) => {
+  const matchs = await MatchModel.deleteMany();
 
-  const userDestination = await UserModel.findById(idUserDestination);
-  const userLocal = await UserModel.findById(user);
+  res.status(200).json("Todos los matchs borrados");
+};
 
-  const newMatch = new MatchModel({
-    idUserDestination: idUserDestination,
-    user: user,
-    username: userDestination.username,
-    email: userDestination.email,
-    rol: userDestination.rol,
-  });
-
+const findMatchById = async (req, res) => {
   try {
-    const matchSaved = await newMatch.save();
-    userDestination.matchs = userDestination.matchs.concat(matchSaved._id);
-    userLocal.matchs = userLocal.matchs.concat(matchSaved._id);
+    const { id } = req.params;
 
-    await userDestination.save();
-    await userLocal.save();
+    const matchs = await MatchModel.find({ idUser: id });
 
-    res.status(200).send(matchSaved);
+    if (matchs.length < 1) {
+      return res.status(400).json("El Usuario no tiene matchs");
+    } else {
+      res.status(200).json(matchs);
+    }
   } catch (error) {
     console.log(error);
-
-    res.status(401).send("Error al crear el match");
+    res.status(500).json(error);
   }
 };
 
 module.exports = {
   allMatch,
-  createMatch,
+  deleteAllMatch,
+  findMatchById,
 };

@@ -1,7 +1,7 @@
 const moongose = require("mongoose");
 const { Schema } = moongose;
 
-const MatchSchema = new moongose.Schema(
+const NotificationSchema = new moongose.Schema(
   {
     idUserDestination: {
       type: Schema.Types.ObjectId,
@@ -10,23 +10,17 @@ const MatchSchema = new moongose.Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    usernameDestination: {
-      type: String,
-      trim: true,
-    },
-    roleDestination: {
-      type: String,
-      trim: true,
-    },
-    emailDestination: {
+    role: {
       type: String,
       trim: true,
     },
     status: {
       type: String,
+      default: "no answer",
+      enum: ["no answer", "cancel", "check it"],
     },
   },
   { timestamps: true, versionKey: false }
 );
 
-module.exports = moongose.model("Match", MatchSchema);
+module.exports = moongose.model("Notification", NotificationSchema);

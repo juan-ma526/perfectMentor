@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
   allUsers,
+  deleteAllUsers,
   createMany,
   signUp,
   signIn,
@@ -26,5 +27,6 @@ router.put("/profile", authRequired, profile);
 router.post("/verifiedUser", authRequired, verifiedUser);
 
 router.delete("/deleteUser", deleteUserbyId);
+router.delete("/deleteAllUsers", deleteAllUsers);
 
 module.exports = router;

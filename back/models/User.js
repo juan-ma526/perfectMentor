@@ -41,6 +41,12 @@ const UserSchema = new moongose.Schema(
         ref: "Match",
       },
     ],
+    notifications: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Notification",
+      },
+    ],
   },
   { timestamps: true, versionKey: false }
 );

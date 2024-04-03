@@ -22,6 +22,16 @@ const allUsers = async (req, res) => {
   }
 };
 
+const deleteAllUsers = async (req, res) => {
+  try {
+    const users = await UserModel.deleteMany();
+
+    return res.status(200).json("Todos los usuarios fueron eliminados");
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
 const createMany = async (req, res) => {
   const seed = async () => {
     try {
@@ -310,6 +320,7 @@ const deleteUserbyId = async (req, res) => {
 
 module.exports = {
   allUsers,
+  deleteAllUsers,
   createMany,
   signUp,
   signIn,
