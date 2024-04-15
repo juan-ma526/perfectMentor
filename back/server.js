@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { Server } = require("socket.io");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const client = require("./config/db");
@@ -13,6 +14,16 @@ app.use(cookieParser());
 
 app.use("/api", routes);
 
-app.listen(process.env.PORT, () => {
+const servidor = app.listen(process.env.PORT, () => {
   console.log("Servidor conectado en el puerto 3001");
+});
+
+module.exports = servidor;
+
+//Socket.io
+
+const io = new Server(servidor, {
+  cors: {
+    origin: "*",
+  },
 });
