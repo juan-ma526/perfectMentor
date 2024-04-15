@@ -1,11 +1,13 @@
 "use client";
-import { Users } from "../interfaces";
+import { User } from "../interfaces";
 import { Page404, UserItem } from ".";
 import { useContext } from "react";
 import { AuthContext } from "../auth-Provider";
+
 interface Props {
-  users: Users[];
+  users: User[];
 }
+
 export const GridUsers = ({ users }: Props) => {
   const { user } = useContext(AuthContext);
   const dontRenderUser = () => <Page404 />;

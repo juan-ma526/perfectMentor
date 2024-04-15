@@ -10,3 +10,6 @@ export { LogoutMobil } from "./navbarMobile/LogoutMobil";
 
 export { Page404 } from "./Page404";
 export { Loading } from "./Loading";
+
+export { GridNotifications } from "./GridNotifications";
+export { NotificationItem } from "./NotificationItem";

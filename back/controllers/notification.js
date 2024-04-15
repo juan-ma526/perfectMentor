@@ -39,7 +39,9 @@ const createNotifications = async (req, res) => {
   const newNotification = new NotificationModel({
     idUserDestination: idUserDestination,
     idUser: idUser,
-    rol: userRte.rol,
+    rolUserRte: userRte.rol,
+    nameUserRte: userRte.username,
+    emailUserRte: userRte.email,
   });
 
   try {

@@ -10,7 +10,15 @@ const NotificationSchema = new moongose.Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    role: {
+    rolUserRte: {
+      type: String,
+      trim: true,
+    },
+    nameUserRte: {
+      type: String,
+      trim: true,
+    },
+    emailUserRte: {
       type: String,
       trim: true,
     },

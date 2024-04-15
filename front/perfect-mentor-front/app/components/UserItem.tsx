@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
-import { Users } from "../interfaces";
+import { User } from "../interfaces";
 import { FaCheckCircle } from "react-icons/fa";
+import avatarDefault from "../assets/avatarDefault.png";
 
 interface Props {
-  user: Users;
+  user: User;
 }
 
 export const UserItem = ({ user }: Props) => {
@@ -14,8 +15,8 @@ export const UserItem = ({ user }: Props) => {
         <div className="relative h-10 w-10">
           <Image
             className="h-full w-full rounded-full object-cover object-center"
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
+            src={avatarDefault}
+            alt="Imagen de Avatar"
             width={100}
             height={100}
           />

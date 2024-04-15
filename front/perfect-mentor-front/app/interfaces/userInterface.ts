@@ -20,6 +20,7 @@ export interface User {
   status: string;
   rol: string;
   matchs: string[];
+  notifications: string[];
   createdAt: string;
   updatedAt: string;
 }
