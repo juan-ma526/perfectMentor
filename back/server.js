@@ -27,3 +27,16 @@ const io = new Server(servidor, {
     origin: "*",
   },
 });
+
+io.on("connection", (socket) => {
+  console.log(socket.id, "socket id");
+  console.log("cliente conectado");
+
+  socket.on("message", (message, nickname) => {
+    //Envio al resto de clientes
+    socket.broadcast.emit("message", {
+      body: message,
+      from: nickname,
+    });
+  });
+});
