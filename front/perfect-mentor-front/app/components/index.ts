@@ -13,3 +13,5 @@ export { Loading } from "./Loading";
 
 export { GridNotifications } from "./GridNotifications";
 export { NotificationItem } from "./NotificationItem";
+
+export { Chat } from "./Chat/Chat";

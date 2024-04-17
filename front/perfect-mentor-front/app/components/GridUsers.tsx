@@ -1,7 +1,7 @@
 "use client";
 import { User } from "../interfaces";
-import { Page404, UserItem } from ".";
-import { useContext } from "react";
+import { Loading, Page404, UserItem } from ".";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../auth-Provider";
 
 interface Props {
@@ -10,6 +10,14 @@ interface Props {
 
 export const GridUsers = ({ users }: Props) => {
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user !== null) {
+      setLoading(false);
+    }
+  }, [user]);
+
   const dontRenderUser = () => <Page404 />;
   const renderUser = () => (
     <>
@@ -33,13 +41,13 @@ export const GridUsers = ({ users }: Props) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-            {users.map((user, index) => (
-              <UserItem key={index} user={user} />
+            {users.map((userDestination, index) => (
+              <UserItem key={index} userDestination={userDestination} user={user} />
             ))}
           </tbody>
         </table>
       </div>
     </>
   );
-  return user ? renderUser() : dontRenderUser();
+  return <>{loading ? dontRenderUser() : renderUser()}</>;
 };

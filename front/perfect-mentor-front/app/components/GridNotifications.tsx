@@ -19,7 +19,9 @@ export const GridNotifications = ({ notifications }: Props) => {
     }
   }, [user]);
 
-  const userNotifications = notifications.filter((notification) => notification.emailUserRte === user?.email);
+  const userNotifications = notifications.filter(
+    (notification) => notification.emailUserRte === user?.email || notification.emailUserDestination === user?.email
+  );
 
   return (
     <>
@@ -31,10 +33,10 @@ export const GridNotifications = ({ notifications }: Props) => {
             <thead className="bg-gray-50">
               <tr>
                 <th scope="col" className="px-6 py-4 md:w-1/6 font-medium text-gray-900">
-                  Name
+                  Rte
                 </th>
                 <th scope="col" className="px-6 py-4 md:w-1/6 font-medium text-gray-900">
-                  Rte
+                  Dest
                 </th>
 
                 <th scope="col" className="px-6 py-4 md:w-1/6 font-medium text-gray-900">

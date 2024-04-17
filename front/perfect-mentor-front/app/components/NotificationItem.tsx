@@ -4,7 +4,6 @@ import { FaCheckCircle } from "react-icons/fa";
 import { Notifications } from "../interfaces";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import avatarDefault from "../assets/avatarDefault.png";
 
 interface Props {
@@ -13,7 +12,6 @@ interface Props {
 
 export const NotificationItem = ({ notification }: Props) => {
   const router = useRouter();
-  const [error, setError] = useState(false);
 
   const HandleUpdateNotification = async (id: string) => {
     try {
@@ -47,7 +45,7 @@ export const NotificationItem = ({ notification }: Props) => {
   };
 
   return (
-    <tr className={`cursor-pointer ${notification.status === "check it" ? "bg-green-100" : "bg-rose-100"}`}>
+    <tr className={`${notification.status === "check it" ? "bg-green-100" : "bg-rose-100"}`}>
       <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
         <div className="relative h-10 w-10">
           <Image
@@ -64,7 +62,7 @@ export const NotificationItem = ({ notification }: Props) => {
           <div className="text-gray-400">{notification.emailUserRte}</div>
         </div>
       </th>
-      <td className="px-6 py-4 italic">{notification.nameUserRte}</td>
+      <td className="px-6 py-4 italic">{notification.emailUserDestination}</td>
       <td className="px-6 py-4">
         <span
           className={`w-[80px] md:w-[90px] inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold ${

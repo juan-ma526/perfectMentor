@@ -1,5 +1,5 @@
 import { NavbarInferior, NavbarLateral } from "../components";
-import { Chat } from "../components/Chat";
+import { Chat } from "../components";
 
 export const metadata = {
   title: "Matchs Page",
