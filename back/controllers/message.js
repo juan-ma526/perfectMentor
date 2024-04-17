@@ -16,7 +16,7 @@ const saveMessage = async (req, res) => {
 };
 
 const getAllMessage = async (req, res) => {
-  const allMessage = await MessageModel.find().sort({ _id: -1 });
+  const allMessage = await MessageModel.find().sort({ _id: 1 });
 
   if (!allMessage) {
     return res.status(400).json("No hay mensajes");
