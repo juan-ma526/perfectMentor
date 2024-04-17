@@ -10,6 +10,10 @@ const NotificationSchema = new moongose.Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    emailUserDestination: {
+      type: String,
+      trim: true,
+    },
     rolUserRte: {
       type: String,
       trim: true,
