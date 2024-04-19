@@ -3,6 +3,8 @@ import Image from "next/image";
 import { User } from "../interfaces";
 import { FaCheckCircle } from "react-icons/fa";
 import avatarDefault from "../assets/avatarDefault.png";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface Props {
   userDestination: User;
@@ -10,8 +12,25 @@ interface Props {
 }
 
 export const UserItem = ({ userDestination, user }: Props) => {
+  const router = useRouter();
   const handleCreateNotification = async (id: string) => {
-    console.log(id, "id destinatario");
+    const response = await fetch("http://localhost:3001/api/notification/createNotifications", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ idUserDestination: id, idUser: user.id }),
+    }).then((res) => res.json());
+
+    const data = await response;
+
+    if (data.message) {
+      toast.error("El Usuario no existe");
+    } else {
+      toast.success("Notificacion enviada");
+      router.refresh();
+    }
   };
 
   return (
