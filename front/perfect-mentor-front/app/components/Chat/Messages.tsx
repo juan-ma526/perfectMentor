@@ -1,18 +1,19 @@
 interface Props {
   body: string;
-  from: string;
+  mine: boolean;
+  createdAt?: string;
 }
 
-export const Messages = ({ body, from }: Props) => {
+export const Messages = ({ body, mine, createdAt }: Props) => {
   return (
-    <div className={`flex mb-4 cursor-pointer ${from === "Yo" ? "justify-end" : "justify-start"}`}>
+    <div className={`flex mb-4 ${mine ? "justify-end" : "justify-start"}`}>
       <div
-        className={`flex justify-center items-center max-w-96 rounded-lg p-3 gap-3 ${
-          from === "Yo" ? "bg-lime-700 text-white" : "bg-white text-gray-700"
-        }  `}
+        className={`flex flex-col max-w-[80%] rounded-lg p-3 gap-1 ${
+          mine ? "bg-principal-4 text-white" : "bg-white text-gray-700"
+        }`}
       >
-        <p className={`${from === "Yo" ? "hidden" : "block bg-lime-800 text-white rounded-xl p-2"}`}>{from}:</p>
-        <p>{body}</p>
+        <p className="break-words [overflow-wrap:anywhere]">{body}</p>
+        {createdAt && <p className="text-xs opacity-70 self-end">{new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</p>}
       </div>
     </div>
   );
