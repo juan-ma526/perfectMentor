@@ -21,7 +21,7 @@ export const GridUsers = ({ users }: Props) => {
   const dontRenderUser = () => <Page404 />;
   const renderUser = () => (
     <>
-      <div className="overflow-hidden overflow-y-auto rounded-lg border border-gray-200 shadow-md m-5">
+      <div className="overflow-x-auto overflow-y-auto rounded-lg border border-gray-200 shadow-md m-5">
         <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
           <thead className="bg-gray-50">
             <tr>
