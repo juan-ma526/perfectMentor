@@ -1,5 +1,5 @@
 import { LogoutMobil } from "..";
-import { FaSearch, FaUser } from "react-icons/fa";
+import { FaComments, FaSearch, FaUser } from "react-icons/fa";
 import { ImStatsBars } from "react-icons/im";
 import { VscReport } from "react-icons/vsc";
 import { NavbarInferiorItem } from "./NavbarInferiorItem";
@@ -19,6 +19,10 @@ export const NavbarInferior = () => {
       path: "/Reports",
     },
     {
+      icon: <FaComments size={20} aria-label="Matchs" role="img" />,
+      path: "/Matchs",
+    },
+    {
       icon: <FaUser size={20} />,
       path: "/Profile",
     },
@@ -26,7 +30,7 @@ export const NavbarInferior = () => {
 
   return (
     <div className="z-50 w-full h-[82px] bg-principal-3 rounded-t-[3rem] flex justify-center items-center md:hidden">
-      <div className="flex justify-between gap-12">
+      <div className="flex justify-between gap-8">
         {NavbarItems.map((item, index) => (
           <NavbarInferiorItem key={index} path={item.path} icon={item.icon} />
         ))}
