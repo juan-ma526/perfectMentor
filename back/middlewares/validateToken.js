@@ -8,11 +8,11 @@ const authRequired = (req, res, next) => {
     return res.status(401).send({ message: "No token, Autorizacion denegada" });
 
   jwt.verify(token, TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(400).send({ message: "Token Invalido" });
+    if (err || !user || !user.id) return res.status(401).send({ message: "Token Invalido" });
 
     req.user = user;
+    next();
   });
-  next();
 };
 
 module.exports = { authRequired };

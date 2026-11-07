@@ -9,6 +9,11 @@ const MessageSchema = new moongose.Schema(
     from: {
       type: String,
     },
+    matchId: {
+      type: Schema.Types.ObjectId,
+      ref: "Match",
+      index: true,
+    },
   },
   { timestamps: true, versionKey: false }
 );

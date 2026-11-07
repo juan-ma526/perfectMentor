@@ -1,5 +1,7 @@
 import { Toaster } from "sonner";
 import AuthProvider from "./auth-Provider";
+import { NotificationListener } from "./components/match/NotificationListener";
+// @ts-ignore Next.js processes global CSS imports at build time.
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
@@ -20,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <AuthProvider>
           {children}
+          <NotificationListener />
           <Toaster />
         </AuthProvider>
       </body>

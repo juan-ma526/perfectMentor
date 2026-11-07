@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
+import { disconnectSocket } from "../../lib/socket";
 
 export const LogoutMobil = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ export const LogoutMobil = () => {
     if (!response.ok) {
       throw new Error("Fallo en el deslogeo");
     }
+    disconnectSocket();
     router.push("/SignIn");
   };
   return (

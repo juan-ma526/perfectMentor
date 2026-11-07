@@ -14,22 +14,30 @@ interface Props {
 export const UserItem = ({ userDestination, user }: Props) => {
   const router = useRouter();
   const handleCreateNotification = async (id: string) => {
-    const response = await fetch("http://localhost:3001/api/notification/createNotifications", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ idUserDestination: id, idUser: user.id }),
-    }).then((res) => res.json());
+    try {
+      const response = await fetch("http://localhost:3001/api/notification/createNotifications", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ idUserDestination: id }),
+      });
+      const data = await response.json();
 
-    const data = await response;
-
-    if (data.message) {
-      toast.error("El Usuario no existe");
-    } else {
-      toast.success("Notificacion enviada");
-      router.refresh();
+      if (!response.ok) {
+        toast.error(data.message || "No se pudo enviar el pedido");
+      } else if (response.status === 201) {
+        toast.success("Notificacion enviada");
+        router.refresh();
+      } else if (data.idUser !== user.id) {
+        toast.success("Hiciste MATCH!!!");
+        router.refresh();
+      } else {
+        toast.info("Ya enviaste un pedido a este usuario");
+      }
+    } catch (error) {
+      toast.error("No se pudo enviar el pedido");
     }
   };
 
@@ -77,6 +85,7 @@ export const UserItem = ({ userDestination, user }: Props) => {
         {userDestination.status === "Verified" ? (
           <button
             onClick={() => handleCreateNotification(userDestination._id)}
+            aria-label={`Dar like a ${userDestination.username}`}
             className={`${
               userDestination.email === user.email ? "hidden" : "block"
             } w-10 flex items-center justify-center text-principal-1 cursor-pointer`}

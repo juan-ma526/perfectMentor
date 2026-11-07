@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { Notifications } from "../interfaces";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -8,12 +8,14 @@ import avatarDefault from "../assets/avatarDefault.png";
 
 interface Props {
   notification: Notifications;
+  userId?: string;
+  onAnswered?: () => void;
 }
 
-export const NotificationItem = ({ notification }: Props) => {
+export const NotificationItem = ({ notification, userId, onAnswered }: Props) => {
   const router = useRouter();
 
-  const HandleUpdateNotification = async (id: string) => {
+  const HandleUpdateNotification = async (id: string, status: "check it" | "cancel") => {
     try {
       const response = await fetch("http://localhost:3001/api/notification/updateNotification", {
         method: "PUT",
@@ -23,24 +25,20 @@ export const NotificationItem = ({ notification }: Props) => {
         credentials: "include",
         body: JSON.stringify({
           idNotification: id,
-          status: "check it",
+          status,
         }),
-      })
-        .then((res) => res.json())
-        .then((respuesta) => {
-          if (respuesta.message) {
-            toast.error(respuesta.message);
-          } else {
-            toast.success("Hiciste MATCH!!!");
-            router.refresh();
-          }
-        })
-        .catch((error) => {
-          toast.error("Error en el MATCH");
-        });
+      });
+      const respuesta = await response.json();
+      if (!response.ok) {
+        toast.error(respuesta.message || "Error en el MATCH");
+        return;
+      }
+      if (status === "check it") toast.success("Hiciste MATCH!!!");
+      else toast.success("Pedido rechazado");
+      onAnswered?.();
+      router.refresh();
     } catch (error) {
       toast.error("Error en el MATCH");
-      throw error;
     }
   };
 
@@ -86,18 +84,24 @@ export const NotificationItem = ({ notification }: Props) => {
         </div>
       </td>
       <td className="px-6 py-4">
-        {notification.status === "no answer" ? (
-          <button
-            onClick={() => HandleUpdateNotification(notification._id)}
-            className="w-10 flex items-center justify-center text-principal-1 cursor-pointer"
-          >
-            <FaCheckCircle size={30} />
-          </button>
-        ) : (
-          <button className="text-principal-4 cursor-not-allowed w-10 flex items-center justify-center" disabled>
-            <FaCheckCircle size={30} />
-          </button>
-        )}
+        {notification.status === "no answer" && userId === notification.idUserDestination ? (
+          <div className="flex gap-2">
+            <button
+              onClick={() => HandleUpdateNotification(notification._id, "check it")}
+              className="w-10 flex items-center justify-center text-principal-1 cursor-pointer"
+              aria-label="Aceptar"
+            >
+              <FaCheckCircle size={30} />
+            </button>
+            <button
+              onClick={() => HandleUpdateNotification(notification._id, "cancel")}
+              className="w-10 flex items-center justify-center text-red-600 cursor-pointer"
+              aria-label="Rechazar"
+            >
+              <FaTimesCircle size={30} />
+            </button>
+          </div>
+        ) : null}
       </td>
     </tr>
   );
