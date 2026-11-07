@@ -35,4 +35,9 @@ const NotificationSchema = new moongose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-module.exports = moongose.model("Notification", NotificationSchema);
+NotificationSchema.index({ idUser: 1, idUserDestination: 1 }, { unique: true });
+
+const Notification = moongose.model("Notification", NotificationSchema);
+Notification.on("index", (error) => error && console.log("Indice de Notification:", error.message));
+
+module.exports = Notification;
