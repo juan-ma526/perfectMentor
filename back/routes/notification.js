@@ -8,14 +8,15 @@ const {
   updateNotification,
   deleteAllNotifications,
 } = require("../controllers/notification");
+const { authRequired } = require("../middlewares/validateToken");
 
-router.get("/allNotifications", allNotifications);
-router.get("/:id", notificationsById);
+router.get("/allNotifications", authRequired, allNotifications);
+router.get("/:id", authRequired, notificationsById);
 
-router.post("/createNotifications", createNotifications);
+router.post("/createNotifications", authRequired, createNotifications);
 
-router.put("/updateNotification", updateNotification);
+router.put("/updateNotification", authRequired, updateNotification);
 
-router.delete("/deleteAllNotifications", deleteAllNotifications);
+router.delete("/deleteAllNotifications", authRequired, deleteAllNotifications);
 
 module.exports = router;
