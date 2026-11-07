@@ -2,30 +2,13 @@ import { BiSearch } from "react-icons/bi";
 import Image from "next/image";
 import Resorte from "../assets/doodle-5 1.png";
 import { GridNotifications, NavbarInferior, NavbarLateral } from "../components";
-import { Notifications } from "../interfaces";
-
-const getAllNotifications = async (): Promise<Notifications[]> => {
-  const notifications = await fetch(`http://localhost:3001/api/notification/allNotifications`, {
-    method: "GET",
-    credentials: "include",
-    next: {
-      revalidate: 0,
-    },
-    headers: {
-      "Content-type": "application/json",
-    },
-  }).then((res) => res.json());
-
-  return notifications;
-};
 
 export const metadata = {
   title: "Report Page",
   description: "Pagina para ver los reportes",
 };
 
-export default async function ReportPage() {
-  const allNotifications = await getAllNotifications();
+export default function ReportPage() {
   return (
     <div className="flex flex-col  bg-principal-2 md:w-[1289px] md:h-[860px] md:z-50 md:top-[41px] md:left-[299px] md:absolute md:rounded-3xl ">
       <Image
@@ -56,7 +39,7 @@ export default async function ReportPage() {
       </div>
       {/*Parte del medio*/}
       <div className="bg-white w-[355px] min-h-[641px] max-h-[641px] m-auto mt-9 relative pt-3 flex flex-col overflow-y-auto md:rounded-3xl md:w-[1235px] md:h-[700px] md:top-[9.5rem] md:left-6 md:pt-[4.75rem] rounded-3xl">
-        <GridNotifications notifications={allNotifications} />
+        <GridNotifications />
       </div>
 
       {/*Navbar inferior*/}
