@@ -1,34 +1,46 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Notifications } from "../interfaces";
 import { NotificationItem } from "./NotificationItem";
 import { AuthContext } from "../auth-Provider";
 import { Loading } from "./Loading";
+import { NOTIFICATIONS_CHANGED } from "./match/NotificationListener";
 
-interface Props {
-  notifications: Notifications[];
-}
-
-export const GridNotifications = ({ notifications }: Props) => {
+export const GridNotifications = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [notifications, setNotifications] = useState<Notifications[]>([]);
+
+  const load = useCallback(async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/notification/allNotifications", {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-type": "application/json" },
+      });
+      if (response.ok) setNotifications(await response.json());
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
     if (user !== null) {
-      setLoading(false);
+      load().then(() => setLoading(false));
     }
-  }, [user]);
+  }, [user, load]);
 
-  const userNotifications = notifications.filter(
-    (notification) => notification.emailUserRte === user?.email || notification.emailUserDestination === user?.email
-  );
+  useEffect(() => {
+    window.addEventListener(NOTIFICATIONS_CHANGED, load);
+    return () => window.removeEventListener(NOTIFICATIONS_CHANGED, load);
+  }, [load]);
 
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        <div className="overflow-hidden overflow-y-auto rounded-lg border border-gray-200 shadow-md m-5">
+        <div className="overflow-x-auto overflow-y-auto rounded-lg border border-gray-200 shadow-md m-5">
           <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
             <thead className="bg-gray-50">
               <tr>
@@ -52,8 +64,13 @@ export const GridNotifications = ({ notifications }: Props) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-              {userNotifications.map((notification, index) => (
-                <NotificationItem key={index} notification={notification} />
+              {notifications.map((notification) => (
+                <NotificationItem
+                  key={notification._id}
+                  notification={notification}
+                  userId={user?.id}
+                  onAnswered={load}
+                />
               ))}
             </tbody>
           </table>
